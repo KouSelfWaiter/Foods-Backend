@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities.Products
 {
-    public class ProductOption : ModelEntity<ProductOptionsTranslation> 
+    public class Category: ModelEntity<CategoryTranslation>
     {
-        public decimal Price { get; set; }
-        public Product Product { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }
