@@ -13,6 +13,7 @@ namespace Domain.Entities.Products
     {
         public decimal Price { get; set; }
         public bool HasBeverage { get; set; }
+        public ICollection<Product> Products { get; set; }
 
     }
 }

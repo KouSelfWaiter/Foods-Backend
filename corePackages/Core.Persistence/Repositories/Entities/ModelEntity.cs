@@ -30,7 +30,7 @@ namespace Core.Persistence.Entities
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
+       virtual public DateTime UpdatedDate { get; set; }
 
     }
 }
