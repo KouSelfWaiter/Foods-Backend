@@ -20,17 +20,13 @@ namespace Core.Persistence.Entities
         public virtual List<TTranslation> Translations { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        
     }
     public class ModelEntity : Entity, IModelEntity
     {
       
-
         public bool IsDeleted { get; set; }
-        public bool IsActive { get; set; }
-        public DateTime CreatedDate { get; set; }
-       virtual public DateTime UpdatedDate { get; set; }
+        public bool IsActive { get; set; }  
 
     }
 }

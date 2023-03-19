@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Baskets;
+﻿using Core.Persistence.Entities;
+using Domain.Entities.Baskets;
 using Domain.Entities.Files;
 using Domain.Entities.Products;
 using Domain.Entities.Products.Translaitons;
@@ -45,5 +46,25 @@ namespace Persistence.Contexts
 
             base.OnModelCreating(modelBuilder);
         }
+
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+           
+            var datas = ChangeTracker.Entries<Entity>();
+
+            foreach (var data in datas)
+            {
+                _ = data.State switch
+                {
+                    EntityState.Added => data.Entity.CreatedDate = DateTime.UtcNow,
+                    EntityState.Modified => data.Entity.UpdatedDate = DateTime.UtcNow,
+                    _ => DateTime.UtcNow
+                };
+            }
+
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
     }
 }
