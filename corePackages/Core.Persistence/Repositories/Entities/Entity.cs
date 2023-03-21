@@ -9,6 +9,8 @@ namespace Core.Persistence.Entities
     public class Entity:IEntity
     {
 
-        public Guid Id { get; set; }    
+        public Guid Id { get; set; }
+        public DateTime CreatedDate { get; set; }
+        virtual public DateTime UpdatedDate { get; set; }
     }
 }
