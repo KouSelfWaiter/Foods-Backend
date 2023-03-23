@@ -10,6 +10,10 @@ namespace Domain.Entities.Products
 {
     public class Category: ModelEntity<CategoryTranslation>
     {
+        public Category()
+        {
+            Products = new List<Product>();
+        }
         public ICollection<Product> Products { get; set; }
     }
 }
