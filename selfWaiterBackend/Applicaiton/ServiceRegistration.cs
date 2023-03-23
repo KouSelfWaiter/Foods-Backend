@@ -14,7 +14,7 @@ namespace Applicaiton
         public static void AddApplicationService(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddMediatR(Assembly.GetExecutingAssembly());
-            serviceCollection.AddAutoMapper(Assembly.GetExecutingAssembly());
+            serviceCollection.AddAutoMapper(typeof(ServiceRegistration));
         }
     }
 }

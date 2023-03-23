@@ -1,4 +1,5 @@
-﻿using Applicaiton.Services.Repositories.BasketItemRepository;
+﻿using Applicaiton.Services.CategoryService;
+using Applicaiton.Services.Repositories.BasketItemRepository;
 using Applicaiton.Services.Repositories.BasketRepository;
 using Applicaiton.Services.Repositories.CategoryRepository;
 using Applicaiton.Services.Repositories.ImageFileRepository;
@@ -26,6 +27,7 @@ using Persistence.Repositories.Translations.CategoryTranslationRepository;
 using Persistence.Repositories.Translations.ProductOptionsTranslationRepository;
 using Persistence.Repositories.Translations.ProductTranslationRepository;
 using Persistence.Repositories.Translations.SpecialMenuTranslationRepository;
+using Persistence.Services.CategoryService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,6 +78,10 @@ namespace Persistence
 
             serviceCollection.AddScoped<IOrderReadRepository, OrderReadRepository>();
             serviceCollection.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
+
+
+            serviceCollection.AddScoped<ICategoryService, CategoryService>();
+
         }
 
     }
