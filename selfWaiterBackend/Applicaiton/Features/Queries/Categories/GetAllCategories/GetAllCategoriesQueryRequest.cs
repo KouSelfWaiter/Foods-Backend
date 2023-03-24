@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Applicaiton.Features.Queries.Categories.GetAllCategories
 {
-    public class GetAllCategoriesQueryRequest: IRequest<GetAllCategoriesQueryResponse>
+    public class GetAllCategoriesQueryRequest: IRequest<List<GetAllCategoriesQueryResponse>>
     {
     }
 }

@@ -7,8 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\Repositories\**" />
+    <EmbeddedResource Remove="Services\Repositories\**" />
+    <None Remove="Services\Repositories\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Contexts\" />
-    <Folder Include="Services\Repositories\" />
   </ItemGroup>
 
   <ItemGroup>
