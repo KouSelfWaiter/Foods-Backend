@@ -13,8 +13,15 @@ namespace Domain.Entities.Products
 {
     public class Product : ModelEntity<ProductTranslation>
     {
-        public decimal Price { get; set; }
+        public Product()
+        {
+            ProductOptions = new List<ProductOption>();
+            SpecialMenus =  new List<SpecialMenu>();
+            ImageFiles= new List<ImageFile>();
+            BasketItems= new List<BasketItem>();
+        }
 
+        public decimal Price { get; set; }
         public ICollection<ProductOption> ProductOptions { get; set; }
         public ICollection<SpecialMenu> SpecialMenus { get; set; }
         public Category Category { get; set; }

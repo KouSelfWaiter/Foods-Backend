@@ -13,7 +13,7 @@ namespace Applicaiton.Services.CategoryService
         Task<GetCategoryDTO> GetCategoryByIdAsync(string id);
         Task CreateCategoryAsync(CreateCategoryDTO createCategoryDTO);
         Task DeleteCategoryAsync(string id);
-        Task UpdateCategoryAsync();
+        Task UpdateCategoryAsync(UpdateCategoryDTO updateCategoryDTO);
 
     }
 }

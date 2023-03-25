@@ -10,6 +10,6 @@ namespace Domain.Entities.Products.Translaitons
     public class ProductTranslation:TranslationEntity<Product>
     {
         public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
     }
 }

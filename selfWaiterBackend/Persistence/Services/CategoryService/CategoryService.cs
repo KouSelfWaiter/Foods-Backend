@@ -5,6 +5,7 @@ using Applicaiton.Services.Repositories.Translations.CategoryTranslationReposito
 using Core.Applicaiton.Enums;
 using Domain.Entities.Products;
 using Domain.Entities.Products.Translaitons;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,19 +52,76 @@ namespace Persistence.Services.CategoryService
             _ = await _writeRepository.SaveAsync();
         }
 
-        public Task<List<GetCategoryDTO>> GetAllCategoriesAsync()
+        public async Task<List<GetCategoryDTO>> GetAllCategoriesAsync()
         {
-            throw new NotImplementedException();
+            List<Category> categories = await _readRepository.Table
+                                                             .Include(c => c.Translations).ToListAsync();
+                                                               
+            List<GetCategoryDTO> result = new List<GetCategoryDTO>();
+
+            categories.ForEach(c =>
+            {
+                List<GetCategoryTranslationDTO> getCategoryTranslationDTOs= new List<GetCategoryTranslationDTO>();
+                //include all translations
+                c.Translations.ForEach(ct =>
+                {
+                    getCategoryTranslationDTOs.Add(new() { Name = ct.Name, TranslationCode = ct.TranslationCode });
+                });
+  
+                result.Add(new GetCategoryDTO()
+                {
+                    Id = c.Id.ToString(),
+                    IsActive = c.IsActive,
+                    Translations = getCategoryTranslationDTOs
+                });
+            });
+
+            return result;
         }
 
-        public Task<GetCategoryDTO> GetCategoryByIdAsync(string id)
+        public async Task<GetCategoryDTO> GetCategoryByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            Category? category = await _readRepository.Table.Include(c => c.Translations)
+                                                           .FirstOrDefaultAsync(c => c.Id == Guid.Parse(id));
+
+            if (category == null)
+                return null; // categoryNotFoundException
+
+
+            List<GetCategoryTranslationDTO> getCategoryTranslationDTOs = new List<GetCategoryTranslationDTO>();
+            category.Translations.ForEach(ct =>
+            {
+                getCategoryTranslationDTOs.Add(new GetCategoryTranslationDTO() { Name = ct.Name, TranslationCode= ct.TranslationCode });
+            });
+
+            return new()
+            {
+                Id = category.Id.ToString(),
+                IsActive= category.IsActive,
+                Translations = getCategoryTranslationDTOs
+            };
         }
 
-        public Task UpdateCategoryAsync()
+        public async Task UpdateCategoryAsync(UpdateCategoryDTO updateCategoryDTO)
         {
-            throw new NotImplementedException();
+            Category? category = await _readRepository.Table.Include(c => c.Translations)
+                                                           .FirstOrDefaultAsync(c => c.Id == Guid.Parse(updateCategoryDTO.Id));
+            if (category == null)
+                return; // categoryNotFound Exception
+
+            category.IsDeleted = updateCategoryDTO.IsDeleted;
+            category.IsActive = updateCategoryDTO.IsActive;
+
+            category.Translations.ForEach(t =>
+            {
+                if (t.TranslationCode == updateCategoryDTO.TranslationCode)
+                {
+                    t.Name = updateCategoryDTO.Name;
+                }
+            });
+
+            _ = await _readRepository.SaveAsync();
+         
         }
     }
 }

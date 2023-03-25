@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Applicaiton.Features.Commands.Products.CreateProduct
+namespace Applicaiton.Features.Commands.Products.UpdateProduct
 {
-    public class CreateProductCommandRequest: IRequest<CreateProductCommandResponse>
+    public class UpdateProductCommandRequest: IRequest<UpdateProductCommandResponse>
     {
+        public string Id { get; set; }
         public int TranslationCode { get; set; }
         public string Name { get; set; }
-        public string CategoryId { get; set; }
         public decimal Price { get; set; }
         public bool IsActive { get; set; }
         public string? Description { get; set; }
