@@ -5,13 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Applicaiton.Features.Commands.Products.CreateProduct
+namespace Applicaiton.Features.Commands.Products.UpdateProduct
 {
-    public class CreateProductCommandValidator: AbstractValidator<CreateProductCommandRequest>
+    public class UpdateProductCommandValidator: AbstractValidator<UpdateProductCommandRequest>
     {
-        public CreateProductCommandValidator()
+        public UpdateProductCommandValidator()
         {
-            //rules
             RuleFor(p => p.Name)
                 .NotEmpty()
                 .WithMessage("Lütfen ürün adını giriniz")
@@ -23,7 +22,6 @@ namespace Applicaiton.Features.Commands.Products.CreateProduct
             RuleFor(p => p.Price)
                 .GreaterThan(0)
                 .WithMessage("Ürün fiyatı 0 dan büyük olmalıdır");
-            
         }
     }
 }
