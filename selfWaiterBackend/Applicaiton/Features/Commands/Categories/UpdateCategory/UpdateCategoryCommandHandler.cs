@@ -27,12 +27,8 @@ namespace Applicaiton.Features.Commands.Categories.UpdateCategory
                 IsActive= request.IsActive,
                 IsDeleted= request.IsDeleted,
                 Name= request.Name,
+                TranslationCode = (TranslationCode)request.TranslationCode,
             };
-
-            if (request.TranslationCode == 0)
-                updateCategoryDTO.TranslationCode = TranslationCode.tr_TR;
-            else
-                updateCategoryDTO.TranslationCode = TranslationCode.en_EN;
 
             await _categoryService.UpdateCategoryAsync(updateCategoryDTO);
 

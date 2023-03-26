@@ -14,6 +14,8 @@ namespace Applicaiton.Services.ProductService
         Task CreateProductAsync(CreateProductDTO createProductDTO);
         Task DeleteProductAsync(string id);
         Task UpdateProductAsync(UpdateProductDTO updateProductDTO);
+        Task CreateProductTranslationAsync(CreateProductTranslationDTO productTranslationDTO);
+        Task UpdateProductTranslationAsync(CreateProductTranslationDTO productTranslationDTO);
 
     }
 }

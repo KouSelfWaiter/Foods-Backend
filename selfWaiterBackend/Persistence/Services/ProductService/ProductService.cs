@@ -62,6 +62,30 @@ namespace Persistence.Services.ProductService
             
         }
 
+        public async Task CreateProductTranslationAsync(CreateProductTranslationDTO productTranslationDTO)
+        {
+            Product? product = await _readRepository.Table.Include(p => p.Translations)
+                                                         .FirstOrDefaultAsync(p => p.Id == Guid.Parse(productTranslationDTO.ProductId));
+            if (product == null)
+                return; //ProductNotFoundException
+
+            product.Translations.ForEach(pt =>
+            {
+                if (pt.TranslationCode == productTranslationDTO.TranslationCode)
+                    throw new Exception("Bu dilde zaten mevcut");
+            });
+
+            product.Translations.Add(new ProductTranslation()
+            {
+                TranslationCode= productTranslationDTO.TranslationCode,
+                Name = productTranslationDTO.Name,
+                Description = productTranslationDTO.Description
+            });
+
+            _ = await _readRepository.SaveAsync();
+            
+        }
+
         public async Task DeleteProductAsync(string id)
         {
             Product product = await _readRepository.GetByIdAsync(id);
@@ -181,6 +205,25 @@ namespace Persistence.Services.ProductService
 
             _ = await _writeRepository.SaveAsync();
 
+        }
+
+        public async Task UpdateProductTranslationAsync(CreateProductTranslationDTO productTranslationDTO)
+        {
+            Product? product = await _readRepository.Table.Include(p => p.Translations)
+                                                        .FirstOrDefaultAsync(p => p.Id == Guid.Parse(productTranslationDTO.ProductId));
+            if (product == null)
+                return; //ProductNotFoundException
+
+            product.Translations.ForEach(pt =>
+            {
+                if(pt.TranslationCode == productTranslationDTO.TranslationCode)
+                {
+                    pt.Description = productTranslationDTO.Description;
+                    pt.Name = productTranslationDTO.Name;
+                }
+            });
+
+            _ = await _readRepository.SaveAsync();
         }
     }
 }
