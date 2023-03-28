@@ -1,6 +1,8 @@
 ﻿using Applicaiton.Features.Commands.Products.CreateProduct;
+using Applicaiton.Features.Commands.Products.CreateProductTranslation;
 using Applicaiton.Features.Commands.Products.DeleteProduct;
 using Applicaiton.Features.Commands.Products.UpdateProduct;
+using Applicaiton.Features.Commands.Products.UpdateProductTranslation;
 using Applicaiton.Features.Queries.Products.GetAllProducts;
 using Applicaiton.Features.Queries.Products.GetProductById;
 using MediatR;
@@ -43,6 +45,14 @@ namespace WebAPI.Controllers
             return Ok(response);
         }
 
+        [HttpPost("[action]")]
+        public async Task<IActionResult> CreateProductTranslation(CreateProductTranslationCommandRequest createProductTranslationCommandRequest)
+        {
+            CreateProductTranslationCommandResponse response = await _mediator.Send(createProductTranslationCommandRequest);
+            
+            return Ok(response);
+        }
+
         [HttpDelete("{Id}")]
         public async Task<IActionResult> DeleteProduct([FromRoute] DeleteProductCommandRequest deleteProductCommandRequest)
         {
@@ -55,6 +65,14 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> UpdateProduct(UpdateProductCommandRequest updateProductCommandRequest)
         {
             UpdateProductCommandResponse response = await _mediator.Send(updateProductCommandRequest);
+
+            return Ok(response);
+        }
+
+        [HttpPut("[action]")]
+        public async Task<IActionResult> UpdateProductTranslation(UpdateProductTranslationCommandRequest updateProductTranslationCommandRequest)
+        {
+            UpdateProductTranslationCommandResponse response = await _mediator.Send(updateProductTranslationCommandRequest);
 
             return Ok(response);
         }

@@ -1,6 +1,8 @@
 ﻿using Applicaiton.Features.Commands.Categories.CreateCategory;
+using Applicaiton.Features.Commands.Categories.CreateCategoryTranslation;
 using Applicaiton.Features.Commands.Categories.DeleteCategory;
 using Applicaiton.Features.Commands.Categories.UpdateCategory;
+using Applicaiton.Features.Commands.Categories.UpdateCategoryTranslation;
 using Applicaiton.Features.Queries.Categories.GetAllCategories;
 using Applicaiton.Features.Queries.Categories.GetCategoryById;
 using MediatR;
@@ -42,6 +44,13 @@ namespace WebAPI.Controllers
 
             return Ok(response);
         }
+        [HttpPost("[action]")]
+        public async Task<IActionResult> CreateCategoryTranslation(CreateCategoryTranslationCommandRequest createCategoryTranslationCommandRequest)
+        {
+            CreateCategoryTranslationCommandResponse response = await _mediator.Send(createCategoryTranslationCommandRequest);
+
+            return Ok(response);
+        }
 
         [HttpDelete("{Id}")]
         public async Task<IActionResult> DeleteCategory([FromRoute] DeleteCategoryCommandRequest deleteCategoryCommandRequest)
@@ -57,6 +66,14 @@ namespace WebAPI.Controllers
             UpdateCategoryCommandResponse response = await _mediator.Send(updateCategoryCommandRequest);
 
             return Ok(response);
+        }
+
+        [HttpPut("[action]")]
+        public async Task<IActionResult> UpdateCategoryTranslation(UpdateCategoryTranslationCommandRequest updateCategoryTranslationCommandRequest)
+        {
+            UpdateCategoryTranslationCommandResponse response = await _mediator.Send(updateCategoryTranslationCommandRequest);
+
+            return Ok();
         }
     }
 }

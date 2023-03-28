@@ -14,6 +14,8 @@ namespace Applicaiton.Services.CategoryService
         Task CreateCategoryAsync(CreateCategoryDTO createCategoryDTO);
         Task DeleteCategoryAsync(string id);
         Task UpdateCategoryAsync(UpdateCategoryDTO updateCategoryDTO);
+        Task CreateCategoryTranslationAsync(CreateCategoryTranslationDTO categoryTranslationDTO);
+        Task UpdateCategoryTranslationAsync(CreateCategoryTranslationDTO categoryTranslationDTO);
 
     }
 }

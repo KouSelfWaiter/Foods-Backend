@@ -45,6 +45,28 @@ namespace Persistence.Services.CategoryService
            
         }
 
+        public async Task CreateCategoryTranslationAsync(CreateCategoryTranslationDTO categoryTranslationDTO)
+        {
+            Category? category = await _readRepository.Table.Include(c => c.Translations)
+                                                            .FirstOrDefaultAsync(c => c.Id == Guid.Parse(categoryTranslationDTO.CategoryId));
+            if (category == null)
+                return; //CategoryNotFoundException
+
+            category.Translations.ForEach(ct =>
+            {
+                if (ct.TranslationCode == categoryTranslationDTO.TranslationCode)
+                    throw new Exception("Zaten bu dilde bir kayit var"); //TranslationAlreadyExist
+            });
+
+            category.Translations.Add(new()
+            {
+                Name = categoryTranslationDTO.Name,
+                TranslationCode = categoryTranslationDTO.TranslationCode
+            });
+
+            _ = await _writeRepository.SaveAsync();
+        }
+
         public async Task DeleteCategoryAsync(string id)
         {
             Category deletedCategory = await _readRepository.GetByIdAsync(id, false);
@@ -122,6 +144,24 @@ namespace Persistence.Services.CategoryService
 
             _ = await _readRepository.SaveAsync();
          
+        }
+
+        public async Task UpdateCategoryTranslationAsync(CreateCategoryTranslationDTO categoryTranslationDTO)
+        {
+            Category? category = await _readRepository.Table.Include(c => c.Translations)
+                                                            .FirstOrDefaultAsync(c => c.Id == Guid.Parse(categoryTranslationDTO.CategoryId));
+            if (category == null) 
+                return; //CategoryNotFoundException
+
+            category.Translations.ForEach(ct =>
+            {
+                if(ct.TranslationCode == categoryTranslationDTO.TranslationCode)
+                {
+                    ct.Name = categoryTranslationDTO.Name;
+                }
+            });
+
+            _ = await _readRepository.SaveAsync();
         }
     }
 }

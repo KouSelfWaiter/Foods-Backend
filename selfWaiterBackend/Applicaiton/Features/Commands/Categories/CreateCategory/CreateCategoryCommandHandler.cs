@@ -25,12 +25,8 @@ namespace Applicaiton.Features.Commands.Categories.CreateCategory
             {
                 Name = request.Name,
                 IsActive = request.IsActive,
+                TranslationCode = (TranslationCode)request.TranslationCode,
             };
-
-            if (request.TranslationCode == 0)
-                categoryDTO.TranslationCode = TranslationCode.tr_TR;
-            else
-                categoryDTO.TranslationCode = TranslationCode.en_EN;
 
             await _categoryService.CreateCategoryAsync(categoryDTO);
 

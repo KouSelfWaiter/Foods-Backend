@@ -27,13 +27,9 @@ namespace Applicaiton.Features.Commands.Products.UpdateProduct
                 Id= request.Id,
                 IsActive= request.IsActive,
                 Name= request.Name,
-                Price = request.Price
+                Price = request.Price,
+                TranslationCode = (TranslationCode)request.TranslationCode,
             };
-
-            if (request.TranslationCode == 0)
-                updateProductDTO.TranslationCode = TranslationCode.tr_TR;
-            else
-                updateProductDTO.TranslationCode = TranslationCode.en_EN;
 
             await _productService.UpdateProductAsync(updateProductDTO);
 

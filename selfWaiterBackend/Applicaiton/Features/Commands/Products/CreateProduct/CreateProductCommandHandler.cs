@@ -28,12 +28,8 @@ namespace Applicaiton.Features.Commands.Products.CreateProduct
                 IsActive= request.IsActive,
                 Name= request.Name,
                 Price= request.Price,
+                TranslationCode = (TranslationCode) request.TranslationCode,
             };
-
-            if (request.TranslationCode == 0)
-                createProductDTO.TranslationCode = TranslationCode.tr_TR;
-            else
-                createProductDTO.TranslationCode = TranslationCode.en_EN;
 
             await _productService.CreateProductAsync(createProductDTO);
 
