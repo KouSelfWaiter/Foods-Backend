@@ -11,6 +11,11 @@ namespace Domain.Entities.Products
 {
     public class SpecialMenu:ModelEntity<SpecialMenuTranslation>
     {
+        public SpecialMenu()
+        {
+            Products = new List<Product>();
+        }
+
         public decimal Price { get; set; }
         public bool HasBeverage { get; set; }
         public ICollection<Product> Products { get; set; }

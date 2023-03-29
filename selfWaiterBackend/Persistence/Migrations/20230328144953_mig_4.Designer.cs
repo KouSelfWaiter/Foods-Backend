@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence.Contexts;
@@ -11,9 +12,11 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(SelfWaiterDbContext))]
-    partial class SelfWaiterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230328144953_mig_4")]
+    partial class mig_4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,9 +99,6 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -176,26 +176,26 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = new Guid("000ec947-d4f7-4785-9a48-d46e2a600001"),
-                            CreatedDate = new DateTime(2023, 3, 29, 14, 31, 35, 778, DateTimeKind.Utc).AddTicks(4317),
+                            CreatedDate = new DateTime(2023, 3, 28, 14, 49, 53, 544, DateTimeKind.Utc).AddTicks(3696),
                             IsActive = true,
                             IsDeleted = false,
-                            UpdatedDate = new DateTime(2023, 3, 29, 14, 31, 35, 778, DateTimeKind.Utc).AddTicks(4321)
+                            UpdatedDate = new DateTime(2023, 3, 28, 14, 49, 53, 544, DateTimeKind.Utc).AddTicks(3698)
                         },
                         new
                         {
                             Id = new Guid("000ec947-d4f7-4785-9a48-d46e2a600002"),
-                            CreatedDate = new DateTime(2023, 3, 29, 14, 31, 35, 778, DateTimeKind.Utc).AddTicks(4325),
+                            CreatedDate = new DateTime(2023, 3, 28, 14, 49, 53, 544, DateTimeKind.Utc).AddTicks(3700),
                             IsActive = true,
                             IsDeleted = false,
-                            UpdatedDate = new DateTime(2023, 3, 29, 14, 31, 35, 778, DateTimeKind.Utc).AddTicks(4325)
+                            UpdatedDate = new DateTime(2023, 3, 28, 14, 49, 53, 544, DateTimeKind.Utc).AddTicks(3700)
                         },
                         new
                         {
                             Id = new Guid("000ec947-d4f7-4785-9a48-d46e2a600003"),
-                            CreatedDate = new DateTime(2023, 3, 29, 14, 31, 35, 778, DateTimeKind.Utc).AddTicks(4328),
+                            CreatedDate = new DateTime(2023, 3, 28, 14, 49, 53, 544, DateTimeKind.Utc).AddTicks(3702),
                             IsActive = true,
                             IsDeleted = false,
-                            UpdatedDate = new DateTime(2023, 3, 29, 14, 31, 35, 778, DateTimeKind.Utc).AddTicks(4328)
+                            UpdatedDate = new DateTime(2023, 3, 28, 14, 49, 53, 544, DateTimeKind.Utc).AddTicks(3703)
                         });
                 });
 
@@ -322,29 +322,29 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = new Guid("000ec947-a4f7-4785-9a48-d46e2a600001"),
-                            CreatedDate = new DateTime(2023, 3, 29, 14, 31, 35, 778, DateTimeKind.Utc).AddTicks(4503),
+                            CreatedDate = new DateTime(2023, 3, 28, 14, 49, 53, 544, DateTimeKind.Utc).AddTicks(4012),
                             Name = "Yiyecek",
                             RelationId = new Guid("000ec947-d4f7-4785-9a48-d46e2a600001"),
                             TranslationCode = 0,
-                            UpdatedDate = new DateTime(2023, 3, 29, 14, 31, 35, 778, DateTimeKind.Utc).AddTicks(4503)
+                            UpdatedDate = new DateTime(2023, 3, 28, 14, 49, 53, 544, DateTimeKind.Utc).AddTicks(4012)
                         },
                         new
                         {
                             Id = new Guid("000ec947-a4f7-4785-9a48-d46e2a600002"),
-                            CreatedDate = new DateTime(2023, 3, 29, 14, 31, 35, 778, DateTimeKind.Utc).AddTicks(4510),
+                            CreatedDate = new DateTime(2023, 3, 28, 14, 49, 53, 544, DateTimeKind.Utc).AddTicks(4015),
                             Name = "İçecek",
                             RelationId = new Guid("000ec947-d4f7-4785-9a48-d46e2a600002"),
                             TranslationCode = 0,
-                            UpdatedDate = new DateTime(2023, 3, 29, 14, 31, 35, 778, DateTimeKind.Utc).AddTicks(4510)
+                            UpdatedDate = new DateTime(2023, 3, 28, 14, 49, 53, 544, DateTimeKind.Utc).AddTicks(4016)
                         },
                         new
                         {
                             Id = new Guid("000ec947-a4f7-4785-9a48-d46e2a600003"),
-                            CreatedDate = new DateTime(2023, 3, 29, 14, 31, 35, 778, DateTimeKind.Utc).AddTicks(4513),
+                            CreatedDate = new DateTime(2023, 3, 28, 14, 49, 53, 544, DateTimeKind.Utc).AddTicks(4018),
                             Name = "Tatlı",
                             RelationId = new Guid("000ec947-d4f7-4785-9a48-d46e2a600003"),
                             TranslationCode = 0,
-                            UpdatedDate = new DateTime(2023, 3, 29, 14, 31, 35, 778, DateTimeKind.Utc).AddTicks(4514)
+                            UpdatedDate = new DateTime(2023, 3, 28, 14, 49, 53, 544, DateTimeKind.Utc).AddTicks(4018)
                         });
                 });
 

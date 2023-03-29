@@ -11,6 +11,12 @@ namespace Domain.Entities.Files
 {
     public class ImageFile:ModelEntity
     {
+
+        public ImageFile()
+        {
+            Products= new List<Product>();
+        }
+
         public string FileName { get; set; }   
         public string Path { get; set; }
         public string Storage { get; set; }
