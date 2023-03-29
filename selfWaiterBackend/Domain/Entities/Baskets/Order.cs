@@ -7,5 +7,6 @@ namespace Domain.Entities.Baskets
         public string Note { get; set; }
         public string OrderCode { get; set; }
         public Basket Basket { get; set; }
+        public bool IsCompleted { get; set; }
     }
 }
