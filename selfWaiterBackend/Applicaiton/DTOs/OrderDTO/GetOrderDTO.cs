@@ -13,5 +13,6 @@ namespace Applicaiton.DTOs.OrderDTO
         public string Note { get; set; }
         public string OrderCode { get; set; }
         public List<GetBasketItemDTO> BasketItems { get; set; }
+        public int TotalCount { get; set; }
     }
 }
