@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Applicaiton.Features.Queries.Orders.GetOrders
 {
-    public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQueryRequest, List<GetOrdersQueryResponse>>
+    public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQueryRequest, GetOrdersQueryResponse>
     {
         private readonly IOrderService _orderService;
 
@@ -18,23 +18,29 @@ namespace Applicaiton.Features.Queries.Orders.GetOrders
             _orderService = orderService;
         }
 
-        public async Task<List<GetOrdersQueryResponse>> Handle(GetOrdersQueryRequest request, CancellationToken cancellationToken)
+        public async Task<GetOrdersQueryResponse> Handle(GetOrdersQueryRequest request, CancellationToken cancellationToken)
         {
-            List<GetOrdersQueryResponse> response = new();
+            List<object> orders = new();
             List<GetOrderDTO> getOrderDTOs = await _orderService.GetOrdersAsync(request.Page, request.Size);
-
+            int totalCount = 0;
             getOrderDTOs.ForEach(o =>
             {
-                response.Add(new()
+                orders.Add(new
                 {
-                    BasketItems = o.BasketItems,
-                    Id = o.Id,
-                    Note = o.Note,
-                    OrderCode = o.OrderCode,
+                    o.Id,
+                    o.Note,
+                    o.OrderCode,
+                    o.BasketItems,
                 });
+
+                totalCount = o.TotalCount;
             });
 
-            return response;
+            return new()
+            {
+                Orders = orders,
+                TotalCount = totalCount
+            };
 
         }
     }

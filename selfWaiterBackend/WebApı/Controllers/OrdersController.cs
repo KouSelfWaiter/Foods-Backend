@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetOrders([FromQuery] GetOrdersQueryRequest getOrdersQueryRequest)
         {
-            List<GetOrdersQueryResponse> response = await _mediator.Send(getOrdersQueryRequest);
+            GetOrdersQueryResponse response = await _mediator.Send(getOrdersQueryRequest);
 
             return Ok(response);
         }

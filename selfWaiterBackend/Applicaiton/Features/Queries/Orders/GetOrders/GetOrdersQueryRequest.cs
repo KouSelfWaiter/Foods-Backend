@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Applicaiton.Features.Queries.Orders.GetOrders
 {
-    public class GetOrdersQueryRequest: IRequest<List<GetOrdersQueryResponse>>
+    public class GetOrdersQueryRequest: IRequest<GetOrdersQueryResponse>
     {
         public int Page { get; set; } = 0;
         public int Size { get; set; } = 10;

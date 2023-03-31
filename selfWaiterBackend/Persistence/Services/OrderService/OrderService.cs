@@ -124,6 +124,8 @@ namespace Persistence.Services.OrderService
                                                         .ThenInclude(p => p.Translations)
                                                         .Where(o => o.IsActive);
 
+            int totalCount = query.Count();
+
             List<Order>? orders = null;
 
             if(page == -1 || size ==-1)
@@ -175,7 +177,8 @@ namespace Persistence.Services.OrderService
                     Id = o.Id.ToString(),
                     Note = o.Note,
                     OrderCode = o.OrderCode,
-                    BasketItems = getBasketItemDTOs
+                    BasketItems = getBasketItemDTOs,
+                    TotalCount = totalCount
 
                 });
 
