@@ -5,6 +5,7 @@ using Applicaiton.Features.Commands.Products.UpdateProduct;
 using Applicaiton.Features.Commands.Products.UpdateProductTranslation;
 using Applicaiton.Features.Queries.Products.GetAllProducts;
 using Applicaiton.Features.Queries.Products.GetProductById;
+using Applicaiton.Features.Queries.Products.GetProductImages;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,14 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetProductById([FromRoute]GetProductByIdQueryRequest getProductByIdQueryRequest)
         {
             GetProductByIdQueryResponse response = await _mediator.Send(getProductByIdQueryRequest);
+
+            return Ok(response);
+        }
+
+        [HttpGet("[action]/{ProductId}")]
+        public async Task<IActionResult> GetProductImages([FromRoute]GetProductImagesQueryRequest getProductImagesQueryRequest)
+        {
+            GetProductImagesQueryResponse response = await _mediator.Send(getProductImagesQueryRequest);
 
             return Ok(response);
         }
