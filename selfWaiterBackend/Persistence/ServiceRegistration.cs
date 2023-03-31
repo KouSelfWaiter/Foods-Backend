@@ -1,5 +1,6 @@
 ﻿using Applicaiton.Services.BasketService;
 using Applicaiton.Services.CategoryService;
+using Applicaiton.Services.FileService;
 using Applicaiton.Services.OrderService;
 using Applicaiton.Services.ProductService;
 using Applicaiton.Services.Repositories.BasketItemRepository;
@@ -32,6 +33,7 @@ using Persistence.Repositories.Translations.ProductTranslationRepository;
 using Persistence.Repositories.Translations.SpecialMenuTranslationRepository;
 using Persistence.Services.BasketService;
 using Persistence.Services.CategoryService;
+using Persistence.Services.FileService;
 using Persistence.Services.OrderService;
 using Persistence.Services.ProductService;
 using System;
@@ -93,6 +95,8 @@ namespace Persistence
             serviceCollection.AddScoped<IBasketService, BasketService>();
 
             serviceCollection.AddScoped<IOrderService, OrderService>();
+
+            serviceCollection.AddScoped<IFileService, FileService>();
 
         }
 

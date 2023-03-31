@@ -16,6 +16,7 @@ namespace Applicaiton.Services.ProductService
         Task UpdateProductAsync(UpdateProductDTO updateProductDTO);
         Task CreateProductTranslationAsync(CreateProductTranslationDTO productTranslationDTO);
         Task UpdateProductTranslationAsync(CreateProductTranslationDTO productTranslationDTO);
+        Task<GetProductImageDTO> GetProductImagesAsync(string productId);
 
     }
 }

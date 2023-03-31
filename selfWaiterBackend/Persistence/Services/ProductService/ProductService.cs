@@ -184,6 +184,34 @@ namespace Persistence.Services.ProductService
 
         }
 
+        public async Task<GetProductImageDTO> GetProductImagesAsync(string productId)
+        {
+            Product? product = await _readRepository.Table.Include(p => p.ImageFiles)
+                                                          .FirstOrDefaultAsync(p => p.Id == Guid.Parse(productId));
+
+
+            List<ProductImageDTO> productImageDTOs = new List<ProductImageDTO>();
+
+            product.ImageFiles.ToList().ForEach(pimage =>
+            {
+                productImageDTOs.Add(new()
+                {
+                    ImageId = pimage.Id.ToString(),
+                    FileName = pimage.FileName,
+                    PathOrContainer = pimage.Path
+
+
+                });
+            });
+
+            return new()
+            {
+                ProductId = product.Id.ToString(),
+                ProductImageDTOs = productImageDTOs
+            };
+            
+        }
+
         public async Task UpdateProductAsync(UpdateProductDTO updateProductDTO)
         {
             Product? product = await _readRepository.Table.Include(p =>p.Translations)
