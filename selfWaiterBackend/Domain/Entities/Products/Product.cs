@@ -22,6 +22,7 @@ namespace Domain.Entities.Products
         }
 
         public decimal Price { get; set; }
+        public Guid CategoryId { get; set; }
         public ICollection<ProductOption> ProductOptions { get; set; }
         public ICollection<SpecialMenu> SpecialMenus { get; set; }
         public Category Category { get; set; }
