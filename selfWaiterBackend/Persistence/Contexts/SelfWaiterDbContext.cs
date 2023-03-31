@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,66 +44,8 @@ namespace Persistence.Contexts
                 .HasOne(b => b.Order)
                 .WithOne(o => o.Basket)
                 .HasForeignKey<Order>(o => o.Id);
-            modelBuilder.Entity<Category>().
-              HasData(new Category()
-              {
-                  Id = Guid.Parse("000ec947-d4f7-4785-9a48-d46e2a600001"),
-                  IsDeleted = false,
-                  IsActive = true,
-                  CreatedDate = DateTime.UtcNow,
-                  UpdatedDate = DateTime.UtcNow,
 
-
-              }, new Category()
-              {
-                  Id = Guid.Parse("000ec947-d4f7-4785-9a48-d46e2a600002"),
-                  IsDeleted = false,
-                  IsActive = true,
-                  CreatedDate = DateTime.UtcNow,
-                  UpdatedDate = DateTime.UtcNow,
-
-
-              }, new Category()
-              {
-                  Id = Guid.Parse("000ec947-d4f7-4785-9a48-d46e2a600003"),
-                  IsDeleted = false,
-                  IsActive = true,
-                  CreatedDate = DateTime.UtcNow,
-                  UpdatedDate = DateTime.UtcNow,
-
-
-              });
-
-            modelBuilder.Entity<CategoryTranslation>()
-                .HasData(new CategoryTranslation()
-                {
-
-                    Id = Guid.Parse("000ec947-a4f7-4785-9a48-d46e2a600001"),
-                    Name = "Yiyecek",
-                    RelationId = Guid.Parse("000ec947-d4f7-4785-9a48-d46e2a600001"),
-                    TranslationCode = TranslationCode.tr_TR,
-                    CreatedDate = DateTime.UtcNow,
-                    UpdatedDate = DateTime.UtcNow,
-
-
-                }, new CategoryTranslation()
-                {
-                    Id = Guid.Parse("000ec947-a4f7-4785-9a48-d46e2a600002"),
-                    Name = "İçecek",
-                    RelationId = Guid.Parse("000ec947-d4f7-4785-9a48-d46e2a600002"),
-                    TranslationCode = TranslationCode.tr_TR,
-                    CreatedDate = DateTime.UtcNow,
-                    UpdatedDate = DateTime.UtcNow,
-
-                }, new CategoryTranslation()
-                {
-                    Id = Guid.Parse("000ec947-a4f7-4785-9a48-d46e2a600003"),
-                    Name = "Tatlı",
-                    RelationId = Guid.Parse("000ec947-d4f7-4785-9a48-d46e2a600003"),
-                    TranslationCode = TranslationCode.tr_TR,
-                    CreatedDate = DateTime.UtcNow,
-                    UpdatedDate = DateTime.UtcNow,
-                });
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(modelBuilder);
         }

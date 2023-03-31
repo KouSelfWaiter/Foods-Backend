@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence.Contexts;
@@ -11,9 +12,11 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(SelfWaiterDbContext))]
-    partial class SelfWaiterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230331132404_mig_8")]
+    partial class mig_8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,35 +50,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Baskets");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("000ac947-a4f7-4785-9a48-b46e2a600001"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = false,
-                            IsDeleted = false,
-                            TableNo = "1",
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ac947-a4f7-4785-9a48-b46e2a600002"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = false,
-                            IsDeleted = false,
-                            TableNo = "1",
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ac947-a4f7-4785-9a48-b46e2a600003"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            IsDeleted = false,
-                            TableNo = "1",
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Baskets.BasketItem", b =>
@@ -199,32 +173,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categorys");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("000ec947-d4f7-4785-9a48-d46e2a600001"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            IsDeleted = false,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ec947-d4f7-4785-9a48-d46e2a600002"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            IsDeleted = false,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ec947-d4f7-4785-9a48-d46e2a600003"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            IsDeleted = false,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Products.Product", b =>
@@ -256,68 +204,6 @@ namespace Persistence.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("000ec947-c4f7-4785-9a48-d46e2a600001"),
-                            CategoryId = new Guid("000ec947-d4f7-4785-9a48-d46e2a600001"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            IsDeleted = false,
-                            Price = 48m,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ec947-c4f7-4785-9a48-d46e2a600002"),
-                            CategoryId = new Guid("000ec947-d4f7-4785-9a48-d46e2a600002"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            IsDeleted = false,
-                            Price = 50m,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ec947-c4f7-4785-9a48-d46e2a600003"),
-                            CategoryId = new Guid("000ec947-d4f7-4785-9a48-d46e2a600001"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            IsDeleted = false,
-                            Price = 50m,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ec947-c4f7-4785-9a48-d46e2a600004"),
-                            CategoryId = new Guid("000ec947-d4f7-4785-9a48-d46e2a600002"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            IsDeleted = false,
-                            Price = 24m,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ec947-c4f7-4785-9a48-d46e2a600005"),
-                            CategoryId = new Guid("000ec947-d4f7-4785-9a48-d46e2a600002"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            IsDeleted = false,
-                            Price = 24m,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ec947-c4f7-4785-9a48-d46e2a600006"),
-                            CategoryId = new Guid("000ec947-d4f7-4785-9a48-d46e2a600001"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            IsDeleted = false,
-                            Price = 24m,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Products.ProductOption", b =>
@@ -407,35 +293,6 @@ namespace Persistence.Migrations
                     b.HasIndex("RelationId");
 
                     b.ToTable("CategoryTranslations");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("000ec947-a4f7-4785-9a48-d46e2a600001"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Yiyecek",
-                            RelationId = new Guid("000ec947-d4f7-4785-9a48-d46e2a600001"),
-                            TranslationCode = 0,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ec947-a4f7-4785-9a48-d46e2a600002"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "İçecek",
-                            RelationId = new Guid("000ec947-d4f7-4785-9a48-d46e2a600002"),
-                            TranslationCode = 0,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ec947-a4f7-4785-9a48-d46e2a600003"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Tatlı",
-                            RelationId = new Guid("000ec947-d4f7-4785-9a48-d46e2a600003"),
-                            TranslationCode = 0,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Products.Translaitons.ProductOptionsTranslation", b =>
@@ -501,88 +358,6 @@ namespace Persistence.Migrations
                     b.HasIndex("RelationId");
 
                     b.ToTable("ProductTranslations");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("000ec947-c4f7-4785-9b48-d46e2a600001"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "",
-                            Name = "Portakal Suyu",
-                            RelationId = new Guid("000ec947-c4f7-4785-9a48-d46e2a600002"),
-                            TranslationCode = 0,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ec947-c4f7-4785-9b48-d46e2a600101"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "",
-                            Name = "Orange Juice",
-                            RelationId = new Guid("000ec947-c4f7-4785-9a48-d46e2a600002"),
-                            TranslationCode = 1,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ec947-c4f7-4785-9b48-d46e2a600002"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Nefis lahmacun",
-                            Name = "Lahmacun",
-                            RelationId = new Guid("000ec947-c4f7-4785-9a48-d46e2a600001"),
-                            TranslationCode = 0,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ec947-c4f7-4785-9b48-d46e2a600003"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Ağzınızı Serinletecek buz gibi milkshake",
-                            Name = "MilkShake",
-                            RelationId = new Guid("000ec947-c4f7-4785-9a48-d46e2a600004"),
-                            TranslationCode = 0,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ec947-c4f7-4785-9b48-d46e2a600004"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Taze çekilmiş türk kahvesi ile 40 yıl hatır",
-                            Name = "Türk Kahvesi",
-                            RelationId = new Guid("000ec947-c4f7-4785-9a48-d46e2a600005"),
-                            TranslationCode = 0,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ec947-c4f7-4785-9b48-d46e2a600104"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "40 years of memory with freshly ground Turkish coffee",
-                            Name = "Turkish coffee",
-                            RelationId = new Guid("000ec947-c4f7-4785-9a48-d46e2a600005"),
-                            TranslationCode = 1,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ec947-c4f7-4785-9b48-d46e2a600005"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Yöresel Kıymalı Pide",
-                            Name = "Kıymalı Pide",
-                            RelationId = new Guid("000ec947-c4f7-4785-9a48-d46e2a600003"),
-                            TranslationCode = 0,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("000ec947-c4f7-4785-9b48-d46e2a600006"),
-                            CreatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "",
-                            Name = "Çorba",
-                            RelationId = new Guid("000ec947-c4f7-4785-9a48-d46e2a600006"),
-                            TranslationCode = 0,
-                            UpdatedDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Products.Translaitons.SpecialMenuTranslation", b =>
