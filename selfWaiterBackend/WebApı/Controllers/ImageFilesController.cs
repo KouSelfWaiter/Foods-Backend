@@ -30,11 +30,10 @@ namespace WebAPI.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{ProductId}")]
-        public async Task<IActionResult> DeleteImaeFile([FromRoute] DeleteImageFileCommandRequest deleteImageFileCommandRequest, [FromQuery] string imageId)
+        [HttpDelete("{ImageId}")]
+        public async Task<IActionResult> DeleteImaeFile([FromRoute] DeleteImageFileCommandRequest deleteImageFileCommandRequest)
         {
-            deleteImageFileCommandRequest.ImageId = imageId;
-
+     
             DeleteImageFileCommandResponse response = await _mediator.Send(deleteImageFileCommandRequest);
 
             return Ok(response);

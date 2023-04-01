@@ -9,7 +9,6 @@ namespace Applicaiton.Features.Commands.ImageFiles.DeleteImageFile
 {
     public class DeleteImageFileCommandRequest: IRequest<DeleteImageFileCommandResponse>
     {
-        public string ProductId { get; set; }
-        public string? ImageId { get; set; }
+        public string ImageId { get; set; }
     }
 }
