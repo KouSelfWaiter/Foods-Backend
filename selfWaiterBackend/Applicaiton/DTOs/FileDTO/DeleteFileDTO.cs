@@ -8,7 +8,6 @@ namespace Applicaiton.DTOs.FileDTO
 {
     public class DeleteFileDTO
     {
-        public string ProductId { get; set; }
         public string ImageId { get; set; }
     }
 }

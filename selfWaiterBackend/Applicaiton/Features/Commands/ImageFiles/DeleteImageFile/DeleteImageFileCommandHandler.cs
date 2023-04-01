@@ -22,7 +22,6 @@ namespace Applicaiton.Features.Commands.ImageFiles.DeleteImageFile
             await _fileService.DeleteFileAsync(new()
             {
                 ImageId = request.ImageId,
-                ProductId = request.ProductId
             });
 
             return new();

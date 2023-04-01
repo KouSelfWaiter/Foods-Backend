@@ -48,7 +48,7 @@ namespace WebAPI.Controllers
         {
             CompleteOrderCommandResponse response = await _mediator.Send(completeOrderCommandRequest);
 
-            return Ok();
+            return Ok(response);
         }
     }
 }

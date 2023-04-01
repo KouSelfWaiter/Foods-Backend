@@ -73,7 +73,7 @@ namespace WebAPI.Controllers
         {
             UpdateCategoryTranslationCommandResponse response = await _mediator.Send(updateCategoryTranslationCommandRequest);
 
-            return Ok();
+            return Ok(response);
         }
     }
 }
