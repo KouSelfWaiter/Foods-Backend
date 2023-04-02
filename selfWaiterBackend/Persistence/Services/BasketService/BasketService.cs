@@ -1,5 +1,6 @@
 ﻿using Applicaiton.DTOs.BasketItemDTO;
 using Applicaiton.DTOs.ProductDTO;
+using Applicaiton.Exceptions;
 using Applicaiton.Services.BasketService;
 using Applicaiton.Services.Repositories.BasketItemRepository;
 using Applicaiton.Services.Repositories.BasketRepository;
@@ -78,7 +79,7 @@ namespace Persistence.Services.BasketService
             }
             else
             {
-                throw new Exception("Basket Bulunamadi (CreateBasketItemAsync)");
+                throw new BasketNotFoundException();
             }
         }
 

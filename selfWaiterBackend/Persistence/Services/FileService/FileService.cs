@@ -1,4 +1,5 @@
 ﻿using Applicaiton.DTOs.FileDTO;
+using Applicaiton.Exceptions;
 using Applicaiton.Services.FileService;
 using Applicaiton.Services.Repositories.ImageFileRepository;
 using Applicaiton.Services.Repositories.ProductRepository;
@@ -31,7 +32,7 @@ namespace Persistence.Services.FileService
         {
             ImageFile imageFile = await _imageFileReadRepository.GetByIdAsync(deleteFileDTO.ImageId);
             if (imageFile == null)
-                throw new Exception("Ressim Bulunamadı");
+                throw new ImageFileNotFoundException();
 
             await _storageService.DeleteAsync("product", imageFile.FileName);
 
@@ -44,7 +45,7 @@ namespace Persistence.Services.FileService
         {
             Product product = await _productRepository.GetByIdAsync(uploadFileDTO.ProductId);
             if (product == null)
-                throw new Exception("Ürün bulunamadı");
+                throw new ProductNotFoundException();
 
             var datas = await _storageService.UploadAsync("product", uploadFileDTO.FormFileCollection);
             // datas = (filename, pathOrContainerName)

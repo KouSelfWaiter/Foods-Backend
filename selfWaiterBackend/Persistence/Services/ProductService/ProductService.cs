@@ -1,4 +1,5 @@
 ﻿using Applicaiton.DTOs.ProductDTO;
+using Applicaiton.Exceptions;
 using Applicaiton.Services.CategoryService;
 using Applicaiton.Services.ProductService;
 using Applicaiton.Services.Repositories.CategoryRepository;
@@ -36,7 +37,7 @@ namespace Persistence.Services.ProductService
 
             if(category == null)
             {
-                return; //CategoryNotFoundException
+                throw new CategoryNotFoundException();
             }
 
             Product addedProduct = new Product()
@@ -67,12 +68,12 @@ namespace Persistence.Services.ProductService
             Product? product = await _readRepository.Table.Include(p => p.Translations)
                                                          .FirstOrDefaultAsync(p => p.Id == Guid.Parse(productTranslationDTO.ProductId));
             if (product == null)
-                return; //ProductNotFoundException
+                throw new ProductNotFoundException();
 
             product.Translations.ForEach(pt =>
             {
                 if (pt.TranslationCode == productTranslationDTO.TranslationCode)
-                    throw new Exception("Bu dilde zaten mevcut");
+                    throw new TranslationAlreadyExist();
             });
 
             product.Translations.Add(new ProductTranslation()
@@ -89,7 +90,7 @@ namespace Persistence.Services.ProductService
         public async Task DeleteProductAsync(string id)
         {
             Product product = await _readRepository.GetByIdAsync(id);
-            if(product == null)  return; // ProductNotFoundException 
+            if(product == null)  throw new ProductNotFoundException();
 
             _ = _writeRepository.Remove(product);
             _ = await _writeRepository.SaveAsync();
@@ -155,7 +156,7 @@ namespace Persistence.Services.ProductService
                                                     .FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
 
             if (product == null)
-                return null; //ProductNotFoundException
+                throw new ProductNotFoundException(ProductNotFoundException.Message);
 
 
             // ProductTranslation
@@ -216,8 +217,8 @@ namespace Persistence.Services.ProductService
         {
             Product? product = await _readRepository.Table.Include(p =>p.Translations)
                                                          .FirstOrDefaultAsync(p => p.Id == Guid.Parse(updateProductDTO.Id));
-            if(product == null) 
-                return; //productNotFoundException
+            if (product == null)
+                throw new ProductNotFoundException();
 
             product.Price = updateProductDTO.Price;
             product.IsActive = updateProductDTO.IsActive;
@@ -240,7 +241,7 @@ namespace Persistence.Services.ProductService
             Product? product = await _readRepository.Table.Include(p => p.Translations)
                                                         .FirstOrDefaultAsync(p => p.Id == Guid.Parse(productTranslationDTO.ProductId));
             if (product == null)
-                return; //ProductNotFoundException
+                throw new ProductNotFoundException();
 
             product.Translations.ForEach(pt =>
             {
