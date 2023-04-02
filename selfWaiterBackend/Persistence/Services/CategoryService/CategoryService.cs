@@ -1,4 +1,5 @@
 ﻿using Applicaiton.DTOs.CategoryDTO;
+using Applicaiton.Exceptions;
 using Applicaiton.Services.CategoryService;
 using Applicaiton.Services.Repositories.CategoryRepository;
 using Applicaiton.Services.Repositories.Translations.CategoryTranslationRepository;
@@ -50,12 +51,12 @@ namespace Persistence.Services.CategoryService
             Category? category = await _readRepository.Table.Include(c => c.Translations)
                                                             .FirstOrDefaultAsync(c => c.Id == Guid.Parse(categoryTranslationDTO.CategoryId));
             if (category == null)
-                return; //CategoryNotFoundException
+                throw new CategoryNotFoundException();
 
             category.Translations.ForEach(ct =>
             {
                 if (ct.TranslationCode == categoryTranslationDTO.TranslationCode)
-                    throw new Exception("Zaten bu dilde bir kayit var"); //TranslationAlreadyExist
+                    throw new TranslationAlreadyExist();
             });
 
             category.Translations.Add(new()
@@ -107,7 +108,7 @@ namespace Persistence.Services.CategoryService
                                                            .FirstOrDefaultAsync(c => c.Id == Guid.Parse(id));
 
             if (category == null)
-                return null; // categoryNotFoundException
+                throw new CategoryNotFoundException();
 
 
             List<GetCategoryTranslationDTO> getCategoryTranslationDTOs = new List<GetCategoryTranslationDTO>();
@@ -129,7 +130,7 @@ namespace Persistence.Services.CategoryService
             Category? category = await _readRepository.Table.Include(c => c.Translations)
                                                            .FirstOrDefaultAsync(c => c.Id == Guid.Parse(updateCategoryDTO.Id));
             if (category == null)
-                return; // categoryNotFound Exception
+                throw new CategoryNotFoundException();
 
             category.IsDeleted = updateCategoryDTO.IsDeleted;
             category.IsActive = updateCategoryDTO.IsActive;
@@ -150,8 +151,8 @@ namespace Persistence.Services.CategoryService
         {
             Category? category = await _readRepository.Table.Include(c => c.Translations)
                                                             .FirstOrDefaultAsync(c => c.Id == Guid.Parse(categoryTranslationDTO.CategoryId));
-            if (category == null) 
-                return; //CategoryNotFoundException
+            if (category == null)
+                throw new CategoryNotFoundException();
 
             category.Translations.ForEach(ct =>
             {

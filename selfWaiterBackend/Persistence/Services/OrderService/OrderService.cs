@@ -1,6 +1,7 @@
 ﻿using Applicaiton.DTOs.BasketItemDTO;
 using Applicaiton.DTOs.OrderDTO;
 using Applicaiton.DTOs.ProductDTO;
+using Applicaiton.Exceptions;
 using Applicaiton.Services.OrderService;
 using Applicaiton.Services.Repositories.BasketRepository;
 using Applicaiton.Services.Repositories.OrderRepository;
@@ -31,7 +32,7 @@ namespace Persistence.Services.OrderService
         {
             Order order = await _orderReadRepository.GetByIdAsync(orderId);
             if (order == null)
-                throw new Exception("Sipariş Bulunamadi");
+                throw new OrderNotFoundException();
             order.IsCompleted = true;
             order.IsActive = false;
 
@@ -42,7 +43,7 @@ namespace Persistence.Services.OrderService
         {
             Basket basket = await _basketReadRepository.GetByIdAsync(createOrderDTO.BasketId);
             if (basket == null)
-                throw new Exception("Spete Bulunamadı");
+                throw new BasketNotFoundException();
 
 
             string orderCode = (new Random().NextDouble() * 10000).ToString();
@@ -73,7 +74,7 @@ namespace Persistence.Services.OrderService
                                                            .FirstOrDefaultAsync(o => o.Id == Guid.Parse(orderId));
 
             if (order == null)
-                throw new Exception("Sipariş bulunamadi");
+                throw new OrderNotFoundException();
 
 
             //basketItemlari getirme

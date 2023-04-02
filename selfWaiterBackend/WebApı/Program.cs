@@ -6,6 +6,7 @@ using Infrastructure.Filters;
 using Infrastructure.Services.Storage.GCP;
 using Infrastructure.Services.Storage.Local;
 using Persistence;
+using WebAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.ConfigureExceptionHandler();
 
 app.UseStaticFiles();
 
