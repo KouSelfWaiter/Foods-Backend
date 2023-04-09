@@ -7,7 +7,7 @@ namespace WebAPI.Extensions
 {
     public static class ConfigureExceptionHandlerExtension
     {
-        public static void ConfigureExceptionHandler(this WebApplication webApplication)
+        public static void ConfigureExceptionHandler<T>(this WebApplication webApplication, ILogger<T> logger)
         {
             webApplication.UseExceptionHandler(builder =>
             {
@@ -21,6 +21,8 @@ namespace WebAPI.Extensions
                     if(contextFeature != null)
                     {
                         // loglama islemi burda devreye girebilir
+                        logger.LogError(contextFeature.Error.Message);
+
                         await context.Response.WriteAsync(JsonSerializer.Serialize(new
                         {
                             Title = "Hata Alındı !!!",

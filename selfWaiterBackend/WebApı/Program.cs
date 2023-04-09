@@ -29,13 +29,11 @@ builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>
 
 
 Logger log = new LoggerConfiguration()
-    .WriteTo.Console()
-   // .WriteTo.File("logs/log.txt")
     .WriteTo.PostgreSQL(
         builder.Configuration.GetConnectionString("PostgreSQL"),
         "Logs",
         needAutoCreateTable: true)
-    .MinimumLevel.Information()
+    .MinimumLevel.Error()
     .CreateLogger();
 
 
@@ -64,7 +62,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.ConfigureExceptionHandler();
+app.ConfigureExceptionHandler<Program>(app.Services.GetRequiredService<ILogger<Program>>());
 
 app.UseStaticFiles();
 
