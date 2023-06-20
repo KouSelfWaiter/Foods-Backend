@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Applicaiton.Features.Queries.Products.GetAllProducts
 {
-    public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQueryRequest, List<GetAllProductsQueryResponse>>
+    public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQueryRequest, GetAllProductsQueryResponse>
     {
 
         private readonly IProductService _productService;
@@ -19,24 +19,28 @@ namespace Applicaiton.Features.Queries.Products.GetAllProducts
             _productService = productService;
         }
 
-        public async Task<List<GetAllProductsQueryResponse>> Handle(GetAllProductsQueryRequest request, CancellationToken cancellationToken)
+        public async Task<GetAllProductsQueryResponse> Handle(GetAllProductsQueryRequest request, CancellationToken cancellationToken)
         {
-            List<GetProductDTO> getProductDTOs = await _productService.GetAllProductsAsync(request.Size, request.Page);
+            var (result, totalCount) = await _productService.GetAllProductsAsync(request.Size, request.Page);
 
-            List<GetAllProductsQueryResponse> response = new List<GetAllProductsQueryResponse>();
-
-            getProductDTOs.ForEach(p =>
+            GetAllProductsQueryResponse response = new()
             {
-                response.Add(new GetAllProductsQueryResponse
-                {
-                    Id = p.Id,
-                    CategoryId = p.CategoryId,
-                    IsActive = p.IsActive,
-                    Price = p.Price,
-                    Translation = p.Translation,
-                    TotalCount = p.TotalCount,
-                });
-            });
+                Products = result,
+                TotalCount= totalCount,
+            };
+
+            //getProductDTOs.ForEach(p =>
+            //{
+            //    response.Add(new GetAllProductsQueryResponse
+            //    {
+            //        Id = p.Id,
+            //        CategoryId = p.CategoryId,
+            //        IsActive = p.IsActive,
+            //        Price = p.Price,
+            //        Translation = p.Translation,
+            //        TotalCount = p.TotalCount,
+            //    });
+            //});
 
             return response;
 

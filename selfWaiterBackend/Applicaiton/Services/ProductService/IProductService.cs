@@ -9,7 +9,7 @@ namespace Applicaiton.Services.ProductService
 {
     public interface IProductService
     {
-        Task<List<GetProductDTO>> GetAllProductsAsync(int size, int page);
+        Task<(List<GetProductDTO>, int totalCount)> GetAllProductsAsync(int size, int page);
         Task<GetProductDTO> GetProductByIdAsync(string id);
         Task CreateProductAsync(CreateProductDTO createProductDTO);
         Task DeleteProductAsync(string id);

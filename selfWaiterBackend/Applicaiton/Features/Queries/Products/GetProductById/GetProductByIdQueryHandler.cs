@@ -24,12 +24,7 @@ namespace Applicaiton.Features.Queries.Products.GetProductById
 
             return new()
             {
-                Id = getProductDTO.Id,
-                CategoryId = getProductDTO.CategoryId,
-                IsActive = getProductDTO.IsActive,
-                Price = getProductDTO.Price,
-                Translation = getProductDTO.Translation,
-                TotalCount = getProductDTO.TotalCount
+                Product = getProductDTO
             };
         }
     }
