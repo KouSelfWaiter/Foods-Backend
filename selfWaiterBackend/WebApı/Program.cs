@@ -19,8 +19,19 @@ builder.Services.AddPersistenceService(builder.Configuration);
 builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureService();
 //NOT: hangi stroage kullancaksan sececeksin
-builder.Services.AddStorage<LocalStorage>(); 
+builder.Services.AddStorage<LocalStorage>();
 // builder.Services.AddStorage<GCPStorage>();
+
+
+//Cors
+builder.Services.AddCors(options =>
+{
+   options.AddPolicy("swFrontPolicy", builder=> {
+       builder.WithOrigins("http://localhost:3000", "https://localhost:3000")
+      .AllowAnyMethod()
+      .AllowAnyHeader();
+   });
+});
 
 builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
 .AddFluentValidation(configuration => configuration
@@ -69,6 +80,8 @@ app.UseStaticFiles();
 
 app.UseSerilogRequestLogging();
 app.UseHttpLogging();
+
+app.UseCors("swFrontPolicy");
 
 app.UseHttpsRedirection();
 
