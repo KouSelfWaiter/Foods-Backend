@@ -1,4 +1,5 @@
 ﻿using Applicaiton.DTOs.CategoryDTO;
+using Applicaiton.DTOs.FileDTO;
 using Core.Applicaiton.Enums;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,8 @@ namespace Applicaiton.DTOs.ProductDTO
         public decimal Price { get; set; }
         public bool IsActive { get; set; }
         public List<GetProductTranslationDTO> Translation { get; set; }
-        public int  TotalCount { get; set; }
+        public List<GetFileDTO> ProductFiles { get; set; }
+        //public int  TotalCount { get; set; }
     }
 
     public class GetProductTranslationDTO

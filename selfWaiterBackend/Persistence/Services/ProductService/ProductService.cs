@@ -1,4 +1,5 @@
-﻿using Applicaiton.DTOs.ProductDTO;
+﻿using Applicaiton.DTOs.FileDTO;
+using Applicaiton.DTOs.ProductDTO;
 using Applicaiton.Exceptions;
 using Applicaiton.Services.CategoryService;
 using Applicaiton.Services.ProductService;
@@ -35,7 +36,7 @@ namespace Persistence.Services.ProductService
         {
             Category category = await _categoryReadRepository.GetByIdAsync(createProductDTO.CategoryId);
 
-            if(category == null)
+            if (category == null)
             {
                 throw new CategoryNotFoundException();
             }
@@ -43,7 +44,7 @@ namespace Persistence.Services.ProductService
             Product addedProduct = new Product()
             {
                 IsActive = createProductDTO.IsActive,
-                Price= createProductDTO.Price,
+                Price = createProductDTO.Price,
                 Translations = new List<ProductTranslation>()
                 {
                     new ProductTranslation()
@@ -53,14 +54,14 @@ namespace Persistence.Services.ProductService
                         TranslationCode = createProductDTO.TranslationCode,
                     }
                 },
-                Category= category,   
-                
+                Category = category,
+
             };
 
 
             _ = await _writeRepository.AddAsync(addedProduct);
             _ = await _writeRepository.SaveAsync();
-            
+
         }
 
         public async Task CreateProductTranslationAsync(CreateProductTranslationDTO productTranslationDTO)
@@ -78,37 +79,40 @@ namespace Persistence.Services.ProductService
 
             product.Translations.Add(new ProductTranslation()
             {
-                TranslationCode= productTranslationDTO.TranslationCode,
+                TranslationCode = productTranslationDTO.TranslationCode,
                 Name = productTranslationDTO.Name,
                 Description = productTranslationDTO.Description
             });
 
             _ = await _readRepository.SaveAsync();
-            
+
         }
 
         public async Task DeleteProductAsync(string id)
         {
             Product product = await _readRepository.GetByIdAsync(id);
-            if(product == null)  throw new ProductNotFoundException();
+            if (product == null) throw new ProductNotFoundException();
 
             _ = _writeRepository.Remove(product);
             _ = await _writeRepository.SaveAsync();
         }
 
-        public async Task<List<GetProductDTO>> GetAllProductsAsync(int size, int page)
+        public async Task<(List<GetProductDTO>, int totalCount)> GetAllProductsAsync(int size, int page)
         {
             int totalCount = await _readRepository.Table.CountAsync();
             IQueryable<Product> query;
-            if(size == -1 || page == -1) {
+            if (size == -1 || page == -1)
+            {
 
                 query = _readRepository.GetAll(false).Include(p => p.Translations)
-                                                      .Include(p => p.Category);
+                                                      .Include(p => p.Category)
+                                                      .Include(p => p.ImageFiles);
             }
             else
             {
                 query = _readRepository.GetAll(false).Include(p => p.Translations)
                                                      .Include(p => p.Category)
+                                                     .Include(p => p.ImageFiles)
                                                      .Skip(size * page).Take(size);
             }
 
@@ -119,15 +123,30 @@ namespace Persistence.Services.ProductService
             products.ForEach(p =>
             {
                 // ProductTranslation
-                List<GetProductTranslationDTO> getProductTranslationDTOs= new List<GetProductTranslationDTO>();
+                List<GetProductTranslationDTO> getProductTranslationDTOs = new List<GetProductTranslationDTO>();
 
                 p.Translations.ForEach(pt =>
                 {
                     getProductTranslationDTOs.Add(new()
                     {
-                        Name= pt.Name,
-                        TranslationCode=pt.TranslationCode,
+                        Name = pt.Name,
+                        TranslationCode = pt.TranslationCode,
                         Description = pt.Description
+                    });
+
+                });
+
+                // ProductFiles
+                List<GetFileDTO> getFileDTOs = new List<GetFileDTO>();
+
+                p.ImageFiles.ToList().ForEach(f =>
+                {
+                    getFileDTOs.Add(new()
+                    {
+                        FileName = f.FileName,
+                        Id = f.Id.ToString(),
+                        Path = f.Path,
+                        Storage = f.Storage,
                     });
 
                 });
@@ -139,13 +158,14 @@ namespace Persistence.Services.ProductService
                     IsActive = p.IsActive,
                     Price = p.Price,
                     Translation = getProductTranslationDTOs,
-                    TotalCount = totalCount
+                    ProductFiles = getFileDTOs
+
                 });
 
             });
 
 
-            return result;
+            return (result, totalCount);
 
         }
         public async Task<GetProductDTO> GetProductByIdAsync(string id)
@@ -153,6 +173,7 @@ namespace Persistence.Services.ProductService
             Product? product = await _readRepository.Table
                                                     .Include(p => p.Translations)
                                                     .Include(p => p.Category)
+                                                    .Include(p => p.ImageFiles)
                                                     .FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
 
             if (product == null)
@@ -173,14 +194,27 @@ namespace Persistence.Services.ProductService
 
             });
 
+            // ProductImages
+            List<GetFileDTO> getFileDTOs = new List<GetFileDTO>();
+            product.ImageFiles.ToList().ForEach(f =>
+            {
+                getFileDTOs.Add(new()
+                {
+                    FileName = f.FileName,
+                    Id = f.Id.ToString(),
+                    Path = f.Path,
+                    Storage = f.Storage,
+                });
+            });
+
             return new()
             {
                 Id = product.Id.ToString(),
                 CategoryId = product.Category.Id.ToString(),
                 IsActive = product.IsActive,
                 Price = product.Price,
-                TotalCount = 1,
-                Translation = getProductTranslationDTOs
+                Translation = getProductTranslationDTOs,
+                ProductFiles = getFileDTOs
             };
 
         }
@@ -210,12 +244,12 @@ namespace Persistence.Services.ProductService
                 ProductId = product.Id.ToString(),
                 ProductImageDTOs = productImageDTOs
             };
-            
+
         }
 
         public async Task UpdateProductAsync(UpdateProductDTO updateProductDTO)
         {
-            Product? product = await _readRepository.Table.Include(p =>p.Translations)
+            Product? product = await _readRepository.Table.Include(p => p.Translations)
                                                          .FirstOrDefaultAsync(p => p.Id == Guid.Parse(updateProductDTO.Id));
             if (product == null)
                 throw new ProductNotFoundException();
@@ -225,7 +259,7 @@ namespace Persistence.Services.ProductService
 
             product.Translations.ForEach(pt =>
             {
-                if(pt.TranslationCode == updateProductDTO.TranslationCode)
+                if (pt.TranslationCode == updateProductDTO.TranslationCode)
                 {
                     pt.Description = updateProductDTO.Description;
                     pt.Name = updateProductDTO.Name;
@@ -245,7 +279,7 @@ namespace Persistence.Services.ProductService
 
             product.Translations.ForEach(pt =>
             {
-                if(pt.TranslationCode == productTranslationDTO.TranslationCode)
+                if (pt.TranslationCode == productTranslationDTO.TranslationCode)
                 {
                     pt.Description = productTranslationDTO.Description;
                     pt.Name = productTranslationDTO.Name;

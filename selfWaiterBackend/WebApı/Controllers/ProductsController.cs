@@ -26,7 +26,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllProducts([FromQuery]GetAllProductsQueryRequest getAllProductsQueryRequest)
         {
-            List<GetAllProductsQueryResponse> response = await _mediator.Send(getAllProductsQueryRequest);
+            GetAllProductsQueryResponse response = await _mediator.Send(getAllProductsQueryRequest);
 
             return Ok(response);
         }
