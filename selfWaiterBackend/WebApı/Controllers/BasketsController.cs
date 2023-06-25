@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetBasketItems([FromQuery]GetBasketItemsQueryRequest getBasketItemsQueryRequest)
         {
-            List<GetBasketItemsQueryResponse> response = await _mediator.Send(getBasketItemsQueryRequest);
+            GetBasketItemsQueryResponse response = await _mediator.Send(getBasketItemsQueryRequest);
 
             return Ok(response);
         }

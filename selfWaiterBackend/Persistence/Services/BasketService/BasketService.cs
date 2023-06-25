@@ -1,4 +1,5 @@
 ﻿using Applicaiton.DTOs.BasketItemDTO;
+using Applicaiton.DTOs.FileDTO;
 using Applicaiton.DTOs.ProductDTO;
 using Applicaiton.Exceptions;
 using Applicaiton.Services.BasketService;
@@ -93,19 +94,23 @@ namespace Persistence.Services.BasketService
             }
         }
 
-        public async Task<List<GetBasketItemDTO>> GetBasketItemsAsync()
+        public async Task<(List<GetBasketItemDTO>, string tableNo, string basketId)> GetBasketItemsAsync()
         {
             Basket basket = GetTableActiveBasket;
             
             Basket?  resultBasket = await _basketReadRepository.Table.Include(b => b.BasketItems)
                                                                     .ThenInclude(bi => bi.Product)
                                                                     .ThenInclude(p => p.Translations)
+                                                                    .Include(b => b.BasketItems)
+                                                                    .ThenInclude(bi => bi.Product)
+                                                                    .ThenInclude(p => p.ImageFiles)
                                                                     .FirstOrDefaultAsync(b => b.Id == basket.Id);
 
             List<GetBasketItemDTO> result = new List<GetBasketItemDTO>();
             string tableNo = resultBasket.TableNo;
 
-            resultBasket.BasketItems.ToList().ForEach(bi => {
+            resultBasket.BasketItems.ToList().ForEach(bi =>
+            {
 
                 List<GetProductTranslationDTO> getProductTranslationDTOs = new List<GetProductTranslationDTO>();
 
@@ -119,20 +124,45 @@ namespace Persistence.Services.BasketService
                         TranslationCode =pt.TranslationCode,
                     });
                 });
+              
+                List<GetFileDTO> getFileDTOs= new List<GetFileDTO>();
+                //add product file
+                bi.Product.ImageFiles.ToList().ForEach(imageFile =>
+                {
+                    getFileDTOs.Add(new()
+                    {
+                        FileName= imageFile.FileName,
+                        Id = imageFile.Id.ToString(),
+                        Path = imageFile.Path,
+                        Storage = imageFile.Storage,
+                    });
+                });
+
+
+                //add Product
+                GetProductDTO getProductDTO = new GetProductDTO()
+                {
+                    Id = bi.Product.Id.ToString(),
+                    CategoryId = bi.Product.CategoryId.ToString(),
+                    IsActive = bi.Product.IsActive,
+                    Price = bi.Product.Price,
+                    ProductFiles = getFileDTOs,
+                    Translation = getProductTranslationDTOs
+
+                };
 
 
                 result.Add(new()
                 {
-                    ProductTranslation = getProductTranslationDTOs,
-                    Quantity = bi.Quantity,
-                    TableNo = tableNo
-                    
+                    Id = bi.Id.ToString(),
+                    ProductDTO = getProductDTO,
+                    Quantity = bi.Quantity,                             
                 });
             
             });
 
          
-            return result;  
+            return (result, tableNo, resultBasket.Id.ToString());  
         }
 
         public async Task UpdateBasketItemAsync(UpdateBasketItemDTO updateBasketItemDTO)

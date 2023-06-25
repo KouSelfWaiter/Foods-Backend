@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Applicaiton.Features.Queries.Baskets.GetBasketItems
 {
-    public class GetBasketItemsQueryHandler : IRequestHandler<GetBasketItemsQueryRequest, List<GetBasketItemsQueryResponse>>
+    public class GetBasketItemsQueryHandler : IRequestHandler<GetBasketItemsQueryRequest, GetBasketItemsQueryResponse>
     {
         private readonly IBasketService _basketService;
 
@@ -18,22 +18,16 @@ namespace Applicaiton.Features.Queries.Baskets.GetBasketItems
             _basketService = basketService;
         }
 
-        public async Task<List<GetBasketItemsQueryResponse>> Handle(GetBasketItemsQueryRequest request, CancellationToken cancellationToken)
+        public async Task<GetBasketItemsQueryResponse> Handle(GetBasketItemsQueryRequest request, CancellationToken cancellationToken)
         {
-            List<GetBasketItemDTO> getBasketItemDTOs = await _basketService.GetBasketItemsAsync();
-            List<GetBasketItemsQueryResponse> response = new List<GetBasketItemsQueryResponse>();
-
-            getBasketItemDTOs.ForEach(bi =>
+            var (result, tableNo, basketId) = await _basketService.GetBasketItemsAsync();
+            
+            return new()
             {
-                response.Add(new GetBasketItemsQueryResponse()
-                {
-                    ProductTranslation = bi.ProductTranslation,
-                    Quantity = bi.Quantity,
-                    TableNo = bi.TableNo,
-                });
-            });
-
-            return response;
+                GetBasketItemDTOs= result,
+                TableNo = tableNo,
+                BasketId = basketId
+            };
         }
     }
 }

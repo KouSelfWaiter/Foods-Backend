@@ -1,4 +1,5 @@
 ﻿using Applicaiton.DTOs.BasketItemDTO;
+using Applicaiton.DTOs.FileDTO;
 using Applicaiton.DTOs.OrderDTO;
 using Applicaiton.DTOs.ProductDTO;
 using Applicaiton.Exceptions;
@@ -6,6 +7,7 @@ using Applicaiton.Services.OrderService;
 using Applicaiton.Services.Repositories.BasketRepository;
 using Applicaiton.Services.Repositories.OrderRepository;
 using Domain.Entities.Baskets;
+using Domain.Entities.Products;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -55,7 +57,7 @@ namespace Persistence.Services.OrderService
             Order order = new Order()
             {
                 Basket = basket,
-                IsActive= true,
+                IsActive = true,
                 Note = createOrderDTO.Note,
                 OrderCode = orderCode,
             };
@@ -71,6 +73,10 @@ namespace Persistence.Services.OrderService
                                                            .ThenInclude(b => b.BasketItems)
                                                            .ThenInclude(bi => bi.Product)
                                                            .ThenInclude(p => p.Translations)
+                                                           .Include(o => o.Basket)
+                                                           .ThenInclude(b => b.BasketItems)
+                                                           .ThenInclude(bi => bi.Product)
+                                                           .ThenInclude(p => p.ImageFiles)
                                                            .FirstOrDefaultAsync(o => o.Id == Guid.Parse(orderId));
 
             if (order == null)
@@ -78,7 +84,7 @@ namespace Persistence.Services.OrderService
 
 
             //basketItemlari getirme
-            List<GetBasketItemDTO> getBasketItemDTOs= new List<GetBasketItemDTO>();
+            List<GetBasketItemDTO> getBasketItemDTOs = new List<GetBasketItemDTO>();
 
             order.Basket.BasketItems.ToList().ForEach(bi =>
             {
@@ -94,11 +100,33 @@ namespace Persistence.Services.OrderService
                     });
                 });
 
+                // productImage
+                List<GetFileDTO> getFileDTOs = new List<GetFileDTO>();
+                bi.Product.ImageFiles.ToList().ForEach(f =>
+                {
+                    getFileDTOs.Add(new()
+                    {
+                        FileName = f.FileName,
+                        Path = f.Path,
+                        Id = f.Id.ToString(),
+                        Storage = f.Storage,
+                    });
+                });
+
                 getBasketItemDTOs.Add(new()
                 {
-                    ProductTranslation = getProductTranslationDTOs,
+                    ProductDTO = new()
+                    {
+                        CategoryId = bi.Product.CategoryId.ToString(),
+                        Id = bi.Product.Id.ToString(),
+                        IsActive = bi.Product.IsActive,
+                        Price = bi.Product.Price,
+                        ProductFiles = getFileDTOs,
+                        Translation = getProductTranslationDTOs
+                    },
                     Quantity = bi.Quantity,
-                    TableNo = order.Basket.TableNo
+                    Id = bi.Id.ToString()
+
                 });
 
             });
@@ -129,7 +157,7 @@ namespace Persistence.Services.OrderService
 
             List<Order>? orders = null;
 
-            if(page == -1 || size ==-1)
+            if (page == -1 || size == -1)
             {
                 orders = await query.ToListAsync();
             }
@@ -161,18 +189,41 @@ namespace Persistence.Services.OrderService
                         });
                     });
 
+                    // productImage
+                    List<GetFileDTO> getFileDTOs = new List<GetFileDTO>();
+                    bi.Product.ImageFiles.ToList().ForEach(f =>
+                    {
+                        getFileDTOs.Add(new()
+                        {
+                            FileName = f.FileName,
+                            Path = f.Path,
+                            Id = f.Id.ToString(),
+                            Storage = f.Storage,
+                        });
+                    });
+
                     getBasketItemDTOs.Add(new()
                     {
-                        ProductTranslation = getProductTranslationDTOs,
+                        
+                        ProductDTO = new()
+                        {
+                            CategoryId = bi.Product.CategoryId.ToString(),
+                            Id = bi.Product.Id.ToString(),
+                            IsActive = bi.Product.IsActive,
+                            Price = bi.Product.Price,
+                            ProductFiles = getFileDTOs,
+                            Translation = getProductTranslationDTOs
+                        },
                         Quantity = bi.Quantity,
-                        TableNo = o.Basket.TableNo
+                        Id = bi.Id.ToString()
+
                     });
 
                 });
 
 
                 //orderDto ekleme
-               
+
                 result.Add(new GetOrderDTO()
                 {
                     Id = o.Id.ToString(),
@@ -186,7 +237,7 @@ namespace Persistence.Services.OrderService
             });
 
             return result;
-                                                           
+
         }
     }
 }

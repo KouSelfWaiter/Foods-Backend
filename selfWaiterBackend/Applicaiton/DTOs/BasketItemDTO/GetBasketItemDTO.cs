@@ -9,8 +9,8 @@ namespace Applicaiton.DTOs.BasketItemDTO
 {
     public class GetBasketItemDTO
     {
-        public string TableNo { get; set; }
-        public List<GetProductTranslationDTO> ProductTranslation { get; set; }
+        public string Id { get; set; }
+        public GetProductDTO ProductDTO { get; set; }
         public int Quantity { get; set; }
     }
 }
