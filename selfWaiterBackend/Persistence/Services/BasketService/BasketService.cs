@@ -165,6 +165,9 @@ namespace Persistence.Services.BasketService
             return (result, tableNo, resultBasket.Id.ToString());  
         }
 
+        public string GetTableActiveBasketId()
+            => GetTableActiveBasket.Id.ToString();
+
         public async Task UpdateBasketItemAsync(UpdateBasketItemDTO updateBasketItemDTO)
         {
             BasketItem basketItem = await _basketItemReadRepository.GetByIdAsync(updateBasketItemDTO.BasketItemId);
