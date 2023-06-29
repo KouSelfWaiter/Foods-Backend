@@ -27,7 +27,8 @@ namespace Applicaiton.Features.Queries.Orders.GetOrderById
                 BasketItems= getOrderDTO.BasketItems,
                 Id= getOrderDTO.Id,
                 Note= getOrderDTO.Note,
-                OrderCode = getOrderDTO.OrderCode         
+                OrderCode = getOrderDTO.OrderCode,
+                TableNo = getOrderDTO.TableNo,
             };
         }
     }

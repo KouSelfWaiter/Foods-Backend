@@ -12,6 +12,7 @@ namespace Applicaiton.Features.Queries.Orders.GetOrderById
         public string Id { get; set; }
         public string? Note { get; set; }
         public string OrderCode { get; set; }
+        public string TableNo { get; set; }
         public List<GetBasketItemDTO> BasketItems { get; set; }
     }
 }

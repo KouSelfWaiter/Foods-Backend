@@ -138,7 +138,8 @@ namespace Persistence.Services.OrderService
                 Id = orderId,
                 Note = order.Note,
                 OrderCode = order.OrderCode,
-                BasketItems = getBasketItemDTOs
+                BasketItems = getBasketItemDTOs,
+                TableNo = order.Basket.TableNo
 
             };
 
@@ -230,7 +231,8 @@ namespace Persistence.Services.OrderService
                     Note = o.Note,
                     OrderCode = o.OrderCode,
                     BasketItems = getBasketItemDTOs,
-                    TotalCount = totalCount
+                    TotalCount = totalCount,
+                    TableNo = o.Basket.TableNo
 
                 });
 
