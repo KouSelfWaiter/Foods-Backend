@@ -31,6 +31,7 @@ namespace Applicaiton.Features.Queries.Orders.GetOrders
                     o.Note,
                     o.OrderCode,
                     o.BasketItems,
+                    o.TableNo,
                 });
 
                 totalCount = o.TotalCount;

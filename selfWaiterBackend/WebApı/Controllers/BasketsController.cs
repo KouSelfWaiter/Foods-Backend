@@ -1,6 +1,7 @@
 ﻿using Applicaiton.Features.Commands.Baskets.CreateBasketItem;
 using Applicaiton.Features.Commands.Baskets.DeleteBasketItem;
 using Applicaiton.Features.Commands.Baskets.UpdateBasketItem;
+using Applicaiton.Features.Queries.Baskets.GetActiveBasketId;
 using Applicaiton.Features.Queries.Baskets.GetBasketItems;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -23,7 +24,15 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetBasketItems([FromQuery]GetBasketItemsQueryRequest getBasketItemsQueryRequest)
         {
-            List<GetBasketItemsQueryResponse> response = await _mediator.Send(getBasketItemsQueryRequest);
+            GetBasketItemsQueryResponse response = await _mediator.Send(getBasketItemsQueryRequest);
+
+            return Ok(response);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetActiveBasketId([FromQuery] GetActiveBasketIdQueryRequest getActiveBasketIdQueryRequest)
+        {
+            GetActiveBasketIdQueryResponse response = await _mediator.Send(getActiveBasketIdQueryRequest);
 
             return Ok(response);
         }
