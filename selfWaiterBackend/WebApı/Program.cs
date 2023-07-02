@@ -8,6 +8,7 @@ using Infrastructure.Services.Storage.Local;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.Logging;
 using Persistence;
+using SelfWaiterSignalR;
 using Serilog;
 using Serilog.Core;
 using WebAPI.Extensions;
@@ -18,6 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddPersistenceService(builder.Configuration);
 builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureService();
+builder.Services.AddSignalRService();
 //NOT: hangi stroage kullancaksan sececeksin
 builder.Services.AddStorage<LocalStorage>();
 // builder.Services.AddStorage<GCPStorage>();
@@ -29,7 +31,9 @@ builder.Services.AddCors(options =>
    options.AddPolicy("swFrontPolicy", builder=> {
        builder.WithOrigins("http://localhost:3000", "https://localhost:3000")
       .AllowAnyMethod()
-      .AllowAnyHeader();
+      .AllowAnyHeader()
+        .AllowCredentials()
+        . SetIsOriginAllowed(origin => true);
    });
 });
 
@@ -88,5 +92,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHubs();
 
 app.Run();
