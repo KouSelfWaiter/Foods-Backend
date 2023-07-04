@@ -19,9 +19,9 @@ namespace Applicaiton.Features.Commands.Baskets.DeleteBasketItem
 
         public async Task<DeleteBasketItemCommandResponse> Handle(DeleteBasketItemCommandRequest request, CancellationToken cancellationToken)
         {
-            await _basketService.DeleteBasketItemAsync(request.Id);
+            decimal totalPrice = await _basketService.DeleteBasketItemAsync(request.Id);
 
-            return new DeleteBasketItemCommandResponse();
+            return new DeleteBasketItemCommandResponse() { TotalPrice = totalPrice};
         }
     }
 }

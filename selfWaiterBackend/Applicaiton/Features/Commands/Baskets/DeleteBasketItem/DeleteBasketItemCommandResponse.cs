@@ -8,5 +8,6 @@ namespace Applicaiton.Features.Commands.Baskets.DeleteBasketItem
 {
     public class DeleteBasketItemCommandResponse
     {
+        public decimal TotalPrice { get; set; }
     }
 }
