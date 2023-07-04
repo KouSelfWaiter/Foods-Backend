@@ -14,6 +14,7 @@ namespace Applicaiton.DTOs.OrderDTO
         public string OrderCode { get; set; }
         public List<GetBasketItemDTO> BasketItems { get; set; }
         public int TotalCount { get; set; }
+        public decimal TotalPrice { get; set; }
         public string TableNo { get; set; }
     }
 }

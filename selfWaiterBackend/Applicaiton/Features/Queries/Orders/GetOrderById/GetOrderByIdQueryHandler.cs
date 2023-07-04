@@ -29,6 +29,7 @@ namespace Applicaiton.Features.Queries.Orders.GetOrderById
                 Note= getOrderDTO.Note,
                 OrderCode = getOrderDTO.OrderCode,
                 TableNo = getOrderDTO.TableNo,
+                TotalPrice = getOrderDTO.TotalPrice
             };
         }
     }

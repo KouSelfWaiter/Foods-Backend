@@ -94,7 +94,7 @@ namespace Persistence.Services.BasketService
             }
         }
 
-        public async Task<(List<GetBasketItemDTO>, string tableNo, string basketId)> GetBasketItemsAsync()
+        public async Task<(List<GetBasketItemDTO>, string tableNo, string basketId, decimal totalPrice)> GetBasketItemsAsync()
         {
             Basket basket = GetTableActiveBasket;
             
@@ -108,10 +108,11 @@ namespace Persistence.Services.BasketService
 
             List<GetBasketItemDTO> result = new List<GetBasketItemDTO>();
             string tableNo = resultBasket.TableNo;
+            decimal totalPrice = 0;
 
             resultBasket.BasketItems.ToList().ForEach(bi =>
             {
-
+                
                 List<GetProductTranslationDTO> getProductTranslationDTOs = new List<GetProductTranslationDTO>();
 
                 //add product translation
@@ -158,11 +159,14 @@ namespace Persistence.Services.BasketService
                     ProductDTO = getProductDTO,
                     Quantity = bi.Quantity,                             
                 });
+
+                //calculate total Price
+                totalPrice += (bi.Product.Price * bi.Quantity);
             
             });
 
          
-            return (result, tableNo, resultBasket.Id.ToString());  
+            return (result, tableNo, resultBasket.Id.ToString(), totalPrice);  
         }
 
         public string GetTableActiveBasketId()

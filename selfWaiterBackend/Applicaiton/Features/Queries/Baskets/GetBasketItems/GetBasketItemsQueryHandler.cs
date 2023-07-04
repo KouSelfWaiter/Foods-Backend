@@ -20,13 +20,14 @@ namespace Applicaiton.Features.Queries.Baskets.GetBasketItems
 
         public async Task<GetBasketItemsQueryResponse> Handle(GetBasketItemsQueryRequest request, CancellationToken cancellationToken)
         {
-            var (result, tableNo, basketId) = await _basketService.GetBasketItemsAsync();
+            var (result, tableNo, basketId, totalPrice) = await _basketService.GetBasketItemsAsync();
             
             return new()
             {
                 GetBasketItemDTOs= result,
                 TableNo = tableNo,
-                BasketId = basketId
+                BasketId = basketId,
+                TotalPrice = totalPrice
             };
         }
     }

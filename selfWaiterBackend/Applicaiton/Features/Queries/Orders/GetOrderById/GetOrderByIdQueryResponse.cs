@@ -13,6 +13,7 @@ namespace Applicaiton.Features.Queries.Orders.GetOrderById
         public string? Note { get; set; }
         public string OrderCode { get; set; }
         public string TableNo { get; set; }
+        public decimal TotalPrice  { get; set; }
         public List<GetBasketItemDTO> BasketItems { get; set; }
     }
 }

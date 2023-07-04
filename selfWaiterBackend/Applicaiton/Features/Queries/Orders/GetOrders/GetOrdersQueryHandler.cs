@@ -32,6 +32,7 @@ namespace Applicaiton.Features.Queries.Orders.GetOrders
                     o.OrderCode,
                     o.BasketItems,
                     o.TableNo,
+                    o.TotalPrice
                 });
 
                 totalCount = o.TotalCount;
