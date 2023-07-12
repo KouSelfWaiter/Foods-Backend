@@ -85,7 +85,8 @@ namespace Persistence.Services.OrderService
 
             //basketItemlari getirme
             List<GetBasketItemDTO> getBasketItemDTOs = new List<GetBasketItemDTO>();
-
+            //getTotalPrice
+            decimal totalPrice = 0;
             order.Basket.BasketItems.ToList().ForEach(bi =>
             {
                 // product translationları getirme
@@ -129,6 +130,9 @@ namespace Persistence.Services.OrderService
 
                 });
 
+                //calculate totalPrice
+                totalPrice += (bi.Product.Price*bi.Quantity);
+
             });
 
 
@@ -139,7 +143,8 @@ namespace Persistence.Services.OrderService
                 Note = order.Note,
                 OrderCode = order.OrderCode,
                 BasketItems = getBasketItemDTOs,
-                TableNo = order.Basket.TableNo
+                TableNo = order.Basket.TableNo,
+                TotalPrice= totalPrice,
 
             };
 
@@ -175,9 +180,11 @@ namespace Persistence.Services.OrderService
             {
                 //basketItemlari getirme
                 List<GetBasketItemDTO> getBasketItemDTOs = new List<GetBasketItemDTO>();
-
+                //basketItems Total Price
+                decimal  totalPrice = 0;
                 o.Basket.BasketItems.ToList().ForEach(bi =>
                 {
+                    
                     // product translationları getirme
                     List<GetProductTranslationDTO> getProductTranslationDTOs = new List<GetProductTranslationDTO>();
                     bi.Product.Translations.ForEach(pt =>
@@ -220,6 +227,11 @@ namespace Persistence.Services.OrderService
 
                     });
 
+                    //calculat totalPrice
+                    totalPrice += (bi.Product.Price*bi.Quantity);
+
+                    
+
                 });
 
 
@@ -232,7 +244,8 @@ namespace Persistence.Services.OrderService
                     OrderCode = o.OrderCode,
                     BasketItems = getBasketItemDTOs,
                     TotalCount = totalCount,
-                    TableNo = o.Basket.TableNo
+                    TableNo = o.Basket.TableNo,
+                    TotalPrice = totalPrice
 
                 });
 

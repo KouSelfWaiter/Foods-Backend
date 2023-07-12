@@ -10,10 +10,10 @@ namespace Applicaiton.Services.BasketService
 {
     public interface IBasketService
     {
-        Task<(List<GetBasketItemDTO>, string tableNo, string basketId)> GetBasketItemsAsync();
+        Task<(List<GetBasketItemDTO>, string tableNo, string basketId, decimal totalPrice)> GetBasketItemsAsync();
         Task CreateBasketItemAsync(CreateBasketItemDTO createBasketItemDTO);
-        Task UpdateBasketItemAsync(UpdateBasketItemDTO updateBasketItemDTO);
-        Task DeleteBasketItemAsync(string id);
+        Task<decimal> UpdateBasketItemAsync(UpdateBasketItemDTO updateBasketItemDTO);
+        Task<decimal> DeleteBasketItemAsync(string id);
         string GetTableActiveBasketId();
         Basket GetTableActiveBasket { get; }
 

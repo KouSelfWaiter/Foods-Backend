@@ -19,13 +19,13 @@ namespace Applicaiton.Features.Commands.Baskets.UpdateBasketItem
 
         public async Task<UpdateBasketItemCommandResponse> Handle(UpdateBasketItemCommandRequest request, CancellationToken cancellationToken)
         {
-            await _basketService.UpdateBasketItemAsync(new()
+            decimal totalPrice = await _basketService.UpdateBasketItemAsync(new()
             {
                 BasketItemId = request.BasketItemId,
                 Quantity = request.Quantity,
             });
 
-            return new();
+            return new() { TotalPrice = totalPrice};
         }
     }
 }

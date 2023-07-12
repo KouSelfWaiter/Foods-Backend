@@ -8,5 +8,6 @@ namespace Applicaiton.Features.Commands.Baskets.UpdateBasketItem
 {
     public class UpdateBasketItemCommandResponse
     {
+        public decimal TotalPrice { get; set; }
     }
 }

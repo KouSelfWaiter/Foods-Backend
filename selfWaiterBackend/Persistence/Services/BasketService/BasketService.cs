@@ -84,17 +84,39 @@ namespace Persistence.Services.BasketService
             }
         }
 
-        public async Task DeleteBasketItemAsync(string id)
+        public async Task<decimal> DeleteBasketItemAsync(string id)
         {
-            BasketItem basketItem = await _basketItemReadRepository.GetByIdAsync(id);
+
+            //BasketItem basketItem = await _basketItemReadRepository.GetByIdAsync(id);
+            BasketItem? basketItem = await _basketItemReadRepository.Table.Include(b => b.Basket)
+                .FirstOrDefaultAsync(b => id.Equals(b.Id.ToString()));
+
             if (basketItem != null)
             {
-                 _basketItemWriteRepository.Remove(basketItem);
+
+                _basketItemWriteRepository.Remove(basketItem);
                 _ = await _basketItemWriteRepository.SaveAsync();
+
+
+                Basket? resultBasket = await _basketReadRepository.Table.Include(b => b.BasketItems)
+                                                                        .ThenInclude(bi => bi.Product)
+                                                                   .FirstOrDefaultAsync(b => b.Id == basketItem.Basket.Id);
+
+                decimal totalPrice = 0;
+                resultBasket.BasketItems.ToList().ForEach(bi =>
+                {
+
+                    totalPrice += bi.Quantity * bi.Product.Price;
+
+                });
+
+                return totalPrice;
             }
+
+            throw new Exception("Boyle Bir Basket Item Bulunamadi");
         }
 
-        public async Task<(List<GetBasketItemDTO>, string tableNo, string basketId)> GetBasketItemsAsync()
+        public async Task<(List<GetBasketItemDTO>, string tableNo, string basketId, decimal totalPrice)> GetBasketItemsAsync()
         {
             Basket basket = GetTableActiveBasket;
             
@@ -108,10 +130,11 @@ namespace Persistence.Services.BasketService
 
             List<GetBasketItemDTO> result = new List<GetBasketItemDTO>();
             string tableNo = resultBasket.TableNo;
+            decimal totalPrice = 0;
 
             resultBasket.BasketItems.ToList().ForEach(bi =>
             {
-
+                
                 List<GetProductTranslationDTO> getProductTranslationDTOs = new List<GetProductTranslationDTO>();
 
                 //add product translation
@@ -158,24 +181,45 @@ namespace Persistence.Services.BasketService
                     ProductDTO = getProductDTO,
                     Quantity = bi.Quantity,                             
                 });
+
+                //calculate total Price
+                totalPrice += (bi.Product.Price * bi.Quantity);
             
             });
 
          
-            return (result, tableNo, resultBasket.Id.ToString());  
+            return (result, tableNo, resultBasket.Id.ToString(), totalPrice);  
         }
 
         public string GetTableActiveBasketId()
             => GetTableActiveBasket.Id.ToString();
 
-        public async Task UpdateBasketItemAsync(UpdateBasketItemDTO updateBasketItemDTO)
+        public async Task<decimal> UpdateBasketItemAsync(UpdateBasketItemDTO updateBasketItemDTO)
         {
-            BasketItem basketItem = await _basketItemReadRepository.GetByIdAsync(updateBasketItemDTO.BasketItemId);
+            //BasketItem basketItem = await _basketItemReadRepository.GetByIdAsync(updateBasketItemDTO.BasketItemId);
+            BasketItem? basketItem = await _basketItemReadRepository.Table.Include(b => b.Basket)
+                .FirstOrDefaultAsync(b => updateBasketItemDTO.BasketItemId.Equals(b.Id.ToString()));
             if(basketItem != null)
             {
                 basketItem.Quantity= updateBasketItemDTO.Quantity;
                 _ = await _basketItemReadRepository.SaveAsync();
+             
+                Basket? resultBasket = await _basketReadRepository.Table.Include(b => b.BasketItems)
+                                                                        .ThenInclude(bi => bi.Product)
+                                                                   .FirstOrDefaultAsync(b => b.Id == basketItem.Basket.Id);
+
+                decimal totalPrice = 0;
+                resultBasket.BasketItems.ToList().ForEach(bi =>
+                {
+
+                    totalPrice += bi.Quantity * bi.Product.Price;
+
+                });
+
+                return totalPrice;
             }
+
+            throw new Exception("Basket Item Tespi Edilemedi");
         }
 
 
