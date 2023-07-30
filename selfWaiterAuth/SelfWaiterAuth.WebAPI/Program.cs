@@ -10,6 +10,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//Cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("swFrontPolicy", builder => {
+        builder.WithOrigins("http://localhost:3000", "https://localhost:3000")
+       .AllowAnyMethod()
+       .AllowAnyHeader()
+         .AllowCredentials()
+         .SetIsOriginAllowed(origin => true);
+    });
+});
+
+
 builder.Services.AddControllers().AddFluentValidation(options =>
 {
     options.ImplicitlyValidateChildProperties = true;
@@ -44,6 +57,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("swFrontPolicy");
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
