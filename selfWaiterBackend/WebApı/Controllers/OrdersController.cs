@@ -3,6 +3,7 @@ using Applicaiton.Features.Commands.Orders.CreateOrder;
 using Applicaiton.Features.Queries.Orders.GetOrderById;
 using Applicaiton.Features.Queries.Orders.GetOrders;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,6 +45,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("{Id}")]
+        [Authorize]
         public async Task<IActionResult> CompleteOrder([FromRoute]CompleteOrderCommandRequest completeOrderCommandRequest)
         {
             CompleteOrderCommandResponse response = await _mediator.Send(completeOrderCommandRequest);

@@ -6,6 +6,7 @@ using Applicaiton.Features.Commands.Categories.UpdateCategoryTranslation;
 using Applicaiton.Features.Queries.Categories.GetAllCategories;
 using Applicaiton.Features.Queries.Categories.GetCategoryById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,6 +39,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateCategory(CreateCategoryCommandRequest createCategoryCommandRequest)
         {
             CreateCategoryCommandResponse response = await _mediator.Send(createCategoryCommandRequest);
@@ -45,6 +47,7 @@ namespace WebAPI.Controllers
             return Ok(response);
         }
         [HttpPost("[action]")]
+        [Authorize]
         public async Task<IActionResult> CreateCategoryTranslation(CreateCategoryTranslationCommandRequest createCategoryTranslationCommandRequest)
         {
             CreateCategoryTranslationCommandResponse response = await _mediator.Send(createCategoryTranslationCommandRequest);
@@ -53,6 +56,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("{Id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteCategory([FromRoute] DeleteCategoryCommandRequest deleteCategoryCommandRequest)
         {
             DeleteCategoryCommandResponse response = await _mediator.Send(deleteCategoryCommandRequest);
@@ -61,6 +65,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> UpdateCategory(UpdateCategoryCommandRequest updateCategoryCommandRequest)
         {
             UpdateCategoryCommandResponse response = await _mediator.Send(updateCategoryCommandRequest);
@@ -69,6 +74,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("[action]")]
+        [Authorize]
         public async Task<IActionResult> UpdateCategoryTranslation(UpdateCategoryTranslationCommandRequest updateCategoryTranslationCommandRequest)
         {
             UpdateCategoryTranslationCommandResponse response = await _mediator.Send(updateCategoryTranslationCommandRequest);

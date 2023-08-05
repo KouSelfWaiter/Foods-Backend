@@ -7,6 +7,7 @@ using Applicaiton.Features.Queries.Products.GetAllProducts;
 using Applicaiton.Features.Queries.Products.GetProductById;
 using Applicaiton.Features.Queries.Products.GetProductImages;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,6 +47,7 @@ namespace WebAPI.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateProduct(CreateProductCommandRequest createProductCommandRequest)
         {
@@ -55,6 +57,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("[action]")]
+        [Authorize]
         public async Task<IActionResult> CreateProductTranslation(CreateProductTranslationCommandRequest createProductTranslationCommandRequest)
         {
             CreateProductTranslationCommandResponse response = await _mediator.Send(createProductTranslationCommandRequest);
@@ -63,6 +66,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("{Id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteProduct([FromRoute] DeleteProductCommandRequest deleteProductCommandRequest)
         {
             DeleteProductCommandResponse response = await _mediator.Send(deleteProductCommandRequest);
@@ -71,6 +75,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> UpdateProduct(UpdateProductCommandRequest updateProductCommandRequest)
         {
             UpdateProductCommandResponse response = await _mediator.Send(updateProductCommandRequest);
@@ -79,6 +84,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("[action]")]
+        [Authorize]
         public async Task<IActionResult> UpdateProductTranslation(UpdateProductTranslationCommandRequest updateProductTranslationCommandRequest)
         {
             UpdateProductTranslationCommandResponse response = await _mediator.Send(updateProductTranslationCommandRequest);
