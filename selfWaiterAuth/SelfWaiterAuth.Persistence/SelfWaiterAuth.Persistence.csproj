@@ -7,25 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Services\Repositories\**" />
-    <EmbeddedResource Remove="Services\Repositories\**" />
-    <None Remove="Services\Repositories\**" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.20">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.8" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Applicaiton\Applicaiton.csproj" />
+    <ProjectReference Include="..\SelfWaiterAuth.Application\SelfWaiterAuth.Application.csproj" />
   </ItemGroup>
 
 </Project>

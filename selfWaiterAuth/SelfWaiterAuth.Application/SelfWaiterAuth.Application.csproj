@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.20" />
+    <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core.Applicaiton\Core.Applicaiton.csproj" />
+    <ProjectReference Include="..\SelfWaiterAuth.Domain\SelfWaiterAuth.Domain.csproj" />
   </ItemGroup>
 
 </Project>

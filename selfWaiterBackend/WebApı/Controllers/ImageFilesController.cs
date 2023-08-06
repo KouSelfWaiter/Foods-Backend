@@ -1,6 +1,7 @@
 ﻿using Applicaiton.Features.Commands.ImageFiles.DeleteImageFile;
 using Applicaiton.Features.Commands.ImageFiles.UploadImageFile;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace WebAPI.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> UploadImageFile([FromQuery] UploadImageFileCommandRequest uploadImageFileCommandRequest)
         {
             // dosyaları request parametresinden çekecegiz
@@ -31,6 +33,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("{ImageId}")]
+        [Authorize]
         public async Task<IActionResult> DeleteImaeFile([FromRoute] DeleteImageFileCommandRequest deleteImageFileCommandRequest)
         {
      

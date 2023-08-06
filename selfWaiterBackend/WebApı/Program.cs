@@ -1,5 +1,7 @@
 ﻿using Applicaiton;
 using Applicaiton.Features.Commands.Products.CreateProduct;
+using Core.Security.Configurations;
+using Core.Security.Extensions;
 using FluentValidation.AspNetCore;
 using Infrastructure;
 using Infrastructure.Filters;
@@ -24,6 +26,12 @@ builder.Services.AddSignalRService();
 builder.Services.AddStorage<LocalStorage>();
 // builder.Services.AddStorage<GCPStorage>();
 
+
+// Auth
+builder.Services.Configure<CustomTokenOptions>(builder.Configuration.GetSection("TokenOptions"));
+var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<CustomTokenOptions>();
+
+builder.Services.AddCustomTokenAuth(tokenOptions);
 
 //Cors
 builder.Services.AddCors(options =>
@@ -89,6 +97,7 @@ app.UseCors("swFrontPolicy");
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
